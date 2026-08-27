@@ -1,304 +1,286 @@
 <template>
-  <div class="page">
+<div class="page">
     <header class="header">
-      <div class="container header-inner">
-        <a href="#" class="logo">homio<span>.</span></a>
-        <nav class="nav">
-          <a href="#services">Услуги</a>
-          <a href="#how">Как это работает</a>
-          <a href="#faq">Помощь</a>
-        </nav>
-        <a href="#order" class="header-button">Заказать услугу</a>
-      </div>
+        <div class="container header-inner">
+            <a href="#" class="logo">homio<span>.</span></a>
+            <nav class="nav">
+                <a href="#services">Услуги</a>
+                <a href="#how">Как это работает</a>
+                <a href="#faq">Помощь</a>
+            </nav>
+            <a href="" class="header-button">Войти</a>
+        </div>
     </header>
-
     <main>
-      <section class="hero">
-        <div class="container hero-inner">
-          <div class="hero-content">
-            <span class="eyebrow">ПОМОЩЬ ПО ДОМУ</span>
-            <h1>Домашние дела <em>решаются проще.</em></h1>
-            <p class="hero-description">Уборка, ремонт, сантехника и другие бытовые задачи. Расскажите, что нужно сделать — мы поможем решить проблему.</p>
-            <div class="hero-actions">
-              <a href="#order" class="primary-button">Заказать услугу <span>→</span></a>
-              <a href="#services" class="secondary-button">Посмотреть услуги</a>
-            </div>
-            <div class="hero-info">
-              <div class="stat">
-                <div class="stat-value"><strong>4.9</strong><span>★</span></div>
-                <small>средняя оценка</small>
-              </div>
-              <div class="divider"></div>
-              <div class="stat">
-                <div class="stat-value"><strong>1000+</strong></div>
-                <small>выполненных заказов</small>
-              </div>
-            </div>
-          </div>
-
-          <div class="hero-visual">
-            <div class="hero-circle"></div>
-            <div class="request-card">
-              <div class="request-top">
-                <span>Новая заявка</span>
-                <span class="request-status">● Новая</span>
-              </div>
-              <div class="request-main">
-                <div class="request-icon">⌂</div>
-                <div>
-                  <h3>Нужна помощь с ремонтом</h3>
-                  <p>Повесить полку в гостиной</p>
+        <section class="hero">
+            <div class="container hero-inner">
+                <div class="hero-content">
+                    <span class="eyebrow">ПОМОЩЬ ПО ДОМУ</span>
+                    <h1>Домашние дела <em>решаются проще.</em></h1>
+                    <p class="hero-description">Уборка, ремонт, сантехника и другие бытовые задачи. Расскажите, что нужно сделать — мы поможем решить проблему.</p>
+                    <div class="hero-actions">
+                        <a href="#order" class="primary-button">Заказать услугу <span>→</span></a>
+                        <a href="#services" class="secondary-button">Посмотреть услуги</a>
+                    </div>
+                    <div class="hero-info">
+                        <div class="stat">
+                            <div class="stat-value"><strong>4.9</strong><span>★</span></div>
+                            <small>средняя оценка</small>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="stat">
+                            <div class="stat-value"><strong>1000+</strong></div>
+                            <small>выполненных заказов</small>
+                        </div>
+                    </div>
                 </div>
-              </div>
-              <div class="request-bottom">
-                <span>Сегодня, 18:00</span>
-                <strong>от 30 €</strong>
-              </div>
+                <div class="hero-visual">
+                    <div class="hero-circle"></div>
+                    <div class="request-card">
+                        <div class="request-top">
+                            <span>Новая заявка</span>
+                            <span class="request-status">● Новая</span>
+                        </div>
+                        <div class="request-main">
+                            <div class="request-icon">⌂</div>
+                            <div>
+                                <h3>Нужна помощь с ремонтом</h3>
+                                <p>Повесить полку в гостиной</p>
+                            </div>
+                        </div>
+                        <div class="request-bottom">
+                            <span>Сегодня, 18:00</span>
+                            <strong>от 30 €</strong>
+                        </div>
+                    </div>
+                    <div class="rating-card">
+                        <div class="rating-avatar">А</div>
+                        <div>
+                            <strong>Анна</strong>
+                            <div class="stars">★★★★★</div>
+                        </div>
+                    </div>
+                    <div class="done-card">
+                        <div class="done-mark">✓</div>
+                        <div>
+                            <strong>Заказ выполнен</strong>
+                            <small>5 минут назад</small>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <div class="rating-card">
-              <div class="rating-avatar">А</div>
-              <div>
-                <strong>Анна</strong>
-                <div class="stars">★★★★★</div>
-              </div>
+        </section>
+        <section id="services" class="section services">
+            <div class="container">
+                <div class="section-heading">
+                    <div>
+                        <span class="eyebrow">УСЛУГИ</span>
+                        <h2>Помощь для вашего дома</h2>
+                    </div>
+                    <p>Не нашли нужную услугу? Просто опишите задачу при оформлении заявки.</p>
+                </div>
+                <div class="services-grid">
+                    <article v-for="service in services":key="service.title" class="service-card">
+                        <div class="service-icon">{{ service.icon }}</div>
+                        <div class="service-content">
+                            <h3>{{ service.title }}</h3>
+                            <p>{{ service.description }}</p>
+                        </div>
+                        <div class="service-footer">
+                            <span>{{ service.price }}</span>
+                            <a href="#order">Заказать</a>
+                        </div>
+                    </article>
+                </div>
+                <div class="services-note">
+                    <span>Нужна другая помощь?</span>
+                    <a href="#order">Опишите задачу</a>
+                </div>
             </div>
-
-            <div class="done-card">
-              <div class="done-mark">✓</div>
-              <div>
-                <strong>Заказ выполнен</strong>
-                <small>5 минут назад</small>
-              </div>
+        </section>
+        <section id="how" class="section how">
+            <div class="container">
+                <div class="section-heading how-heading">
+                    <div>
+                        <span class="eyebrow">КАК ЭТО РАБОТАЕТ</span>
+                        <h2>Всё просто</h2>
+                    </div>
+                    <p>От заявки до выполненной работы без лишних звонков и сложностей.</p>
+                </div>
+                <div class="steps">
+                    <article v-for="step in steps":key="step.number" class="step">
+                        <span class="step-number">{{ step.number }}</span>
+                        <div class="step-content">
+                            <h3>{{ step.title }}</h3>
+                            <p>{{ step.text }}</p>
+                        </div>
+                    </article>
+                </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="services" class="section services">
-        <div class="container">
-          <div class="section-heading">
-            <div>
-              <span class="eyebrow">УСЛУГИ</span>
-              <h2>Помощь для вашего дома</h2>
+        </section>
+        <section class="section why">
+            <div class="container why-layout">
+                <div class="why-intro">
+                    <span class="eyebrow">ПОЧЕМУ HOMIO</span>
+                    <h2>Не нужно искать, кому позвонить.</h2>
+                    <p>Одна заявка вместо десятка поисков. Расскажите о задаче, укажите адрес и удобное время — остальное мы организуем.</p>
+                    <a href="#order" class="text-link">Оставить заявку →</a>
+                </div>
+                <div class="why-list">
+                    <div class="why-item">
+                        <span>01</span>
+                        <div>
+                            <h3>Одна заявка</h3>
+                            <p>Неважно, что именно сломалось. Просто опишите проблему.</p>
+                        </div>
+                    </div>
+                    <div class="why-item">
+                        <span>02</span>
+                        <div>
+                            <h3>Понятная цена</h3>
+                            <p>Перед выполнением работы вы знаете её ориентировочную стоимость.</p>
+                        </div>
+                    </div>
+                    <div class="why-item">
+                        <span>03</span>
+                        <div>
+                            <h3>Удобное время</h3>
+                            <p>Вы сами выбираете подходящую дату и время визита.</p>
+                        </div>
+                    </div>
+                    <div class="why-item">
+                        <span>04</span>
+                        <div>
+                            <h3>История заказов</h3>
+                            <p>Все ваши заявки и их статусы находятся в одном месте.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <p>Не нашли нужную услугу? Просто опишите задачу при оформлении заявки.</p>
-          </div>
-
-          <div class="services-grid">
-            <article v-for="service in services" :key="service.title" class="service-card">
-              <div class="service-icon">{{ service.icon }}</div>
-              <div class="service-content">
-                <h3>{{ service.title }}</h3>
-                <p>{{ service.description }}</p>
-              </div>
-              <div class="service-footer">
-                <span>{{ service.price }}</span>
-                <a href="#order">Заказать</a>
-              </div>
-            </article>
-          </div>
-
-          <div class="services-note">
-            <span>Нужна другая помощь?</span>
-            <a href="#order">Опишите задачу</a>
-          </div>
-        </div>
-      </section>
-
-      <section id="how" class="section how">
-        <div class="container">
-          <div class="section-heading how-heading">
-            <div>
-              <span class="eyebrow">КАК ЭТО РАБОТАЕТ</span>
-              <h2>Всё просто</h2>
+        </section>
+        <section id="order" class="section cta-section">
+            <div class="container">
+                <div class="cta">
+                    <div class="cta-left">
+                        <span class="eyebrow">НУЖНА ПОМОЩЬ?</span>
+                        <h2>Есть проблема по дому?</h2>
+                    </div>
+                    <div class="cta-right">
+                        <p>Расскажите, что нужно сделать. Мы поможем подобрать услугу и согласовать удобное время.</p>
+                        <button type="button" class="primary-button">Оставить заявку <span>→</span></button>
+                    </div>
+                </div>
             </div>
-            <p>От заявки до выполненной работы без лишних звонков и сложностей.</p>
-          </div>
-
-          <div class="steps">
-            <article v-for="step in steps" :key="step.number" class="step">
-              <span class="step-number">{{ step.number }}</span>
-              <div class="step-content">
-                <h3>{{ step.title }}</h3>
-                <p>{{ step.text }}</p>
-              </div>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="section why">
-        <div class="container why-layout">
-          <div class="why-intro">
-            <span class="eyebrow">ПОЧЕМУ HOMIO</span>
-            <h2>Не нужно искать, кому позвонить.</h2>
-            <p>Одна заявка вместо десятка поисков. Расскажите о задаче, укажите адрес и удобное время — остальное мы организуем.</p>
-            <a href="#order" class="text-link">Оставить заявку →</a>
-          </div>
-
-          <div class="why-list">
-            <div class="why-item">
-              <span>01</span>
-              <div>
-                <h3>Одна заявка</h3>
-                <p>Неважно, что именно сломалось. Просто опишите проблему.</p>
-              </div>
+        </section>
+        <section id="faq" class="section faq">
+            <div class="container faq-layout">
+                <div class="faq-title">
+                    <span class="eyebrow">ПОМОЩЬ</span>
+                    <h2>Частые вопросы</h2>
+                    <p>Если не нашли ответ — просто оставьте заявку, и мы всё объясним.</p>
+                </div>
+                <div class="faq-list">
+                    <article v-for="(question,index) in faqs":key="question" class="faq-item">
+                        <button type="button" @click="toggleFaq(index)">
+                            <span>{{ question }}</span>
+                            <b>{{ faqOpen===index?'−':'+' }}</b>
+                        </button>
+                        <div v-if="faqOpen===index" class="faq-answer">
+                            Стоимость и время зависят от конкретной задачи. После оформления заявки мы уточним детали и сообщим всю необходимую информацию.
+                        </div>
+                    </article>
+                </div>
             </div>
-            <div class="why-item">
-              <span>02</span>
-              <div>
-                <h3>Понятная цена</h3>
-                <p>Перед выполнением работы вы знаете её ориентировочную стоимость.</p>
-              </div>
-            </div>
-            <div class="why-item">
-              <span>03</span>
-              <div>
-                <h3>Удобное время</h3>
-                <p>Вы сами выбираете подходящую дату и время визита.</p>
-              </div>
-            </div>
-            <div class="why-item">
-              <span>04</span>
-              <div>
-                <h3>История заказов</h3>
-                <p>Все ваши заявки и их статусы находятся в одном месте.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="order" class="section cta-section">
-        <div class="container">
-          <div class="cta">
-            <div class="cta-left">
-              <span class="eyebrow">НУЖНА ПОМОЩЬ?</span>
-              <h2>Есть проблема по дому?</h2>
-            </div>
-            <div class="cta-right">
-              <p>Расскажите, что нужно сделать. Мы поможем подобрать услугу и согласовать удобное время.</p>
-              <button type="button" class="primary-button">Оставить заявку <span>→</span></button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="faq" class="section faq">
-        <div class="container faq-layout">
-          <div class="faq-title">
-            <span class="eyebrow">ПОМОЩЬ</span>
-            <h2>Частые вопросы</h2>
-            <p>Если не нашли ответ — просто оставьте заявку, и мы всё объясним.</p>
-          </div>
-
-          <div class="faq-list">
-            <article v-for="(question, index) in faqs" :key="question" class="faq-item">
-              <button type="button" @click="toggleFaq(index)">
-                <span>{{ question }}</span>
-                <b>{{ faqOpen === index ? '−' : '+' }}</b>
-              </button>
-              <div v-if="faqOpen === index" class="faq-answer">
-                Стоимость и время зависят от конкретной задачи. После оформления заявки мы уточним детали и сообщим всю необходимую информацию.
-              </div>
-            </article>
-          </div>
-        </div>
-      </section>
+        </section>
     </main>
-
     <footer>
-      <div class="container footer-inner">
-        <div class="footer-brand">
-          <a href="#" class="logo">homio<span>.</span></a>
-          <p>Помогаем решать бытовые задачи проще.</p>
+        <div class="container footer-inner">
+            <div class="footer-brand">
+                <a href="#" class="logo">homio<span>.</span></a>
+                <p>Помогаем решать бытовые задачи проще.</p>
+            </div>
+            <div class="footer-links">
+                <div>
+                    <strong>Услуги</strong>
+                    <a href="#services">Уборка</a>
+                    <a href="#services">Ремонт</a>
+                    <a href="#services">Сантехника</a>
+                    <a href="#services">Электрика</a>
+                </div>
+                <div>
+                    <strong>Информация</strong>
+                    <a href="#how">Как это работает</a>
+                    <a href="#faq">Помощь</a>
+                    <a href="#">Контакты</a>
+                </div>
+            </div>
         </div>
-
-        <div class="footer-links">
-          <div>
-            <strong>Услуги</strong>
-            <a href="#services">Уборка</a>
-            <a href="#services">Ремонт</a>
-            <a href="#services">Сантехника</a>
-            <a href="#services">Электрика</a>
-          </div>
-          <div>
-            <strong>Информация</strong>
-            <a href="#how">Как это работает</a>
-            <a href="#faq">Помощь</a>
-            <a href="#">Контакты</a>
-          </div>
+        <div class="container footer-bottom">
+            <span>© 2026 Homio</span>
+            <span>Условия · Конфиденциальность</span>
         </div>
-      </div>
-
-      <div class="container footer-bottom">
-        <span>© 2026 Homio</span>
-        <span>Условия · Конфиденциальность</span>
-      </div>
     </footer>
-  </div>
+</div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 
-const faqOpen = ref<number | null>(null)
-
-const services = [
-  {
-    icon: '✦',
-    title: 'Уборка',
-    description: 'Квартиры, дома и генеральная уборка',
-    price: 'от 40 €',
-  },
-  {
-    icon: '⌁',
-    title: 'Мелкий ремонт',
-    description: 'Собрать мебель, повесить полку, что-то починить',
-    price: 'от 30 €',
-  },
-  {
-    icon: '◌',
-    title: 'Сантехника',
-    description: 'Краны, трубы, раковины и протечки',
-    price: 'от 40 €',
-  },
-  {
-    icon: '⌂',
-    title: 'Электрика',
-    description: 'Розетки, светильники и бытовая электрика',
-    price: 'от 45 €',
-  },
+const faqOpen=ref<number|null>(null)
+const services=[
+    {
+        icon:'✦',
+        title:'Уборка',
+        description:'Квартиры, дома и генеральная уборка',
+        price:'от 40 €',
+    },
+    {
+        icon:'⌁',
+        title:'Мелкий ремонт',
+        description:'Собрать мебель, повесить полку, что-то починить',
+        price:'от 30 €',
+    },
+    {
+        icon:'◌',
+        title:'Сантехника',
+        description:'Краны, трубы, раковины и протечки',
+        price:'от 40 €',
+    },
+    {
+        icon:'⌂',
+        title:'Электрика',
+        description:'Розетки, светильники и бытовая электрика',
+        price:'от 45 €',
+    },
 ]
 
-const steps = [
-  {
-    number: '01',
-    title: 'Расскажите о проблеме',
-    text: 'Опишите своими словами, что нужно сделать.',
-  },
-  {
-    number: '02',
-    title: 'Выберите удобное время',
-    text: 'Укажите адрес и время, когда вам удобно принять специалиста.',
-  },
-  {
-    number: '03',
-    title: 'Получите помощь',
-    text: 'Специалист приедет и выполнит необходимую работу.',
-  },
+const steps=[
+    {
+        number:'01',
+        title:'Расскажите о проблеме',
+        text:'Опишите своими словами, что нужно сделать.',
+    },
+    {
+        number:'02',
+        title:'Выберите удобное время',
+        text:'Укажите адрес и время, когда вам удобно принять специалиста.',
+    },
+    {
+        number:'03',
+        title:'Получите помощь',
+        text:'Специалист приедет и выполнит необходимую работу.',
+    },
 ]
 
-const faqs = [
-  'Сколько стоит услуга?',
-  'Как быстро можно вызвать специалиста?',
-  'Можно ли выбрать определённое время?',
-  'Что делать, если нужной услуги нет в списке?',
+const faqs=[
+    'Сколько стоит услуга?',
+    'Как быстро можно вызвать специалиста?',
+    'Можно ли выбрать определённое время?',
+    'Что делать, если нужной услуги нет в списке?',
 ]
 
-function toggleFaq(index: number) {
-  faqOpen.value = faqOpen.value === index ? null : index
+function toggleFaq(index: number){
+    faqOpen.value=faqOpen.value===index?null:index
 }
 </script>
 
