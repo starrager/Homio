@@ -17,19 +17,19 @@
                     <h2>Вход в аккаунт</h2>
                     <p>Введите данные, которые использовали при регистрации.</p>
                 </div>
-                <form class="auth-form">
+                <form class="auth-form" @submit.prevent="login">
                     <div class="field">
                         <label for="email">Email</label>
-                        <input id="email" type="email" placeholder="you@example.com">
+                        <input id="email" type="text" placeholder="you@example.com" v-model="email">
                     </div>
                     <div class="field">
                         <div class="field-top">
                             <label for="password">Пароль</label>
                             <a href="#" class="forgot-link">Забыли пароль?</a>
                         </div>
-                        <input id="password" type="password" placeholder="Введите пароль">
+                        <input id="password" type="password" placeholder="Введите пароль" v-model="password">
                     </div>
-                    <button type="button" class="primary-button"><router-link>Войти</router-link><span>→</span></button>
+                    <button type="submit" class="primary-button">Войти<span>→</span></button>
                 </form>
                 <div class="form-divider"><span>или</span></div>
                 <button type="button" class="secondary-button">Продолжить с Google</button>
@@ -44,7 +44,23 @@
 </template>
 
 <script setup>
+import {ref} from 'vue'
+import axios from 'axios'
+import { useRouter } from 'vue-router'
 
+const router=useRouter()
+const email=ref('')
+const password=ref('')
+
+const login=async()=>{
+    try{
+        const response=await axios.post('http://localhost:5178/auth/login',{email:email.value,password:password.value})
+        router.push('/')
+    }catch(error){
+        console.error(error)
+        alert('login error')
+    }
+}
 </script>
 
 <style scoped>
@@ -107,15 +123,15 @@
 }
 .auth-main{
     flex:1;
-    padding:85px 0 100px
+    padding:70px 0 85px
 }
 .auth-container{
-    width:min(920px,calc(100% - 48px));
+    width:min(1000px,calc(100% - 48px));
     margin:0 auto;
     display:grid;
-    grid-template-columns:0.9fr 1.1fr;
+    grid-template-columns:0.95fr 1.05fr;
     align-items:center;
-    gap:100px
+    gap:95px
 }
 .auth-intro{
     position:relative
@@ -131,9 +147,9 @@
 .auth-intro h1{
     margin:18px 0 20px;
     color:#30332d;
-    font-size:64px;
+    font-size:58px;
     line-height:1.02;
-    letter-spacing:-3.5px;
+    letter-spacing:-3px;
     font-weight:800
 }
 .auth-intro h1 em{
@@ -141,7 +157,7 @@
     color:#657254;
     font-style:normal
 }
-.auth-intro p{
+.auth-intro>p{
     max-width:390px;
     margin:0;
     color:#777a71;
@@ -149,7 +165,7 @@
     line-height:1.75
 }
 .auth-card{
-    padding:38px;
+    padding:36px;
     border:1px solid #ddd9cf;
     border-radius:12px;
     background:#fffdf8;
@@ -163,7 +179,7 @@
     letter-spacing:-1px
 }
 .card-heading p{
-    margin:10px 0 30px;
+    margin:10px 0 27px;
     color:#898b83;
     font-size:14px;
     line-height:1.6
@@ -171,12 +187,12 @@
 .auth-form{
     display:flex;
     flex-direction:column;
-    gap:20px
+    gap:16px
 }
 .field{
     display:flex;
     flex-direction:column;
-    gap:8px
+    gap:7px
 }
 .field-top{
     display:flex;
@@ -195,7 +211,7 @@
 }
 .field input{
     width:100%;
-    height:52px;
+    height:49px;
     padding:0 15px;
     border:1px solid #d8d5cb;
     border-radius:8px;
@@ -219,8 +235,8 @@
     justify-content:center;
     gap:18px;
     width:100%;
-    height:54px;
-    margin-top:4px;
+    height:53px;
+    margin-top:5px;
     border:0;
     border-radius:8px;
     background:#657254;
@@ -242,12 +258,12 @@
     align-items:center;
     justify-content:center;
     width:100%;
-    height:52px;
+    height:50px;
     border:1px solid #d7d3c9;
     border-radius:8px;
     background:#fbfaf6;
     color:#4c5048;
-    font-size:15px;
+    font-size:14px;
     font-weight:700;
     cursor:pointer;
     transition:border-color .2s ease,transform .2s ease
@@ -260,7 +276,7 @@
     display:flex;
     align-items:center;
     gap:15px;
-    margin:25px 0
+    margin:22px 0
 }
 .form-divider::before,.form-divider::after{
     content:"";
@@ -273,7 +289,7 @@
     font-size:13px
 }
 .bottom-text{
-    margin:25px 0 0;
+    margin:22px 0 0;
     color:#898b83;
     font-size:14px;
     text-align:center
@@ -295,7 +311,7 @@
     color:#999b93;
     font-size:13px
 }
-@media(max-width:800px){
+@media(max-width:850px){
     .auth-container{
         grid-template-columns:1fr;
         gap:45px;
@@ -304,14 +320,14 @@
     .auth-intro{
         text-align:center
     }
-    .auth-intro p{
+    .auth-intro>p{
         margin:0 auto
     }
     .auth-intro h1{
         font-size:52px
     }
     .auth-main{
-        padding:65px 0 80px
+        padding:60px 0 75px
     }
 }
 @media(max-width:500px){
@@ -331,7 +347,7 @@
         width:calc(100% - 32px)
     }
     .auth-intro h1{
-        font-size:46px;
+        font-size:45px;
         letter-spacing:-2.5px
     }
     .auth-card{

@@ -2,7 +2,7 @@
 <div class="auth-page">
     <header class="header">
         <div class="container header-inner">
-            <a href="/" class="logo">homio<span>.</span></a>
+            <router-link class="logo" to="/">homio<span>.</span></router-link>
         </div>
     </header>
     <main class="auth-main">
@@ -27,7 +27,7 @@
                     <div class="field"><label for="email">Email</label><input v-model="email" id="email" type="text" placeholder="you@example.com"></div>
                     <div class="field"><label for="password">Пароль</label><input v-model="password" id="password" type="password" placeholder="Минимум 8 символов"></div>
                     <div class="field"><label for="password-confirm">Повторите пароль</label><input v-model="confirmPassword" id="password-confirm" type="password" placeholder="Введите пароль ещё раз"></div>
-                    <label class="checkbox"><input type="checkbox"><span>Я принимаю <a href="#">условия использования</a> и <a href="#">политику конфиденциальности</a></span></label>
+                    <label class="checkbox"><input type="checkbox" v-model="agreed"><span>Я принимаю <a href="#">условия использования</a> и <a href="#">политику конфиденциальности</a></span></label>
                     <button type="submit" class="primary-button">Создать аккаунт<span>→</span></button>
                 </form>
                 <div class="form-divider"><span>или</span></div>
@@ -52,19 +52,25 @@ const email=ref('')
 const name=ref('')
 const password=ref('')
 const confirmPassword=ref('')
+const agreed=ref(false)
 
 const register=async()=>{
     try{
+        if(password.value!==confirmPassword.value){
+            alert('Пароли не совпадают')
+            return
+        }
+        if(!agreed.value){
+            alert('Примите условия использования')
+            return
+        }
         const response=await axios.post('http://localhost:5178/auth/register',{name:name.value,email:email.value,password:password.value})
-        console.log('success')
         router.push('/')
-
     }catch(error){
         console.error(error)
         alert('register error')
     }
 }
-
 </script>
 
 <style scoped>
@@ -72,7 +78,8 @@ const register=async()=>{
     box-sizing:border-box
 }
 :global(html){
-    scroll-behavior:smooth
+    scroll-behavior:smooth;
+    scrollbar-gutter:stable;
 }
 :global(body){
     margin:0;
@@ -111,7 +118,7 @@ const register=async()=>{
     color:#657254;
     font-size:28px;
     font-weight:800;
-    letter-spacing:-1.5px
+    letter-spacing:-1.5px;
 }
 .logo span{
     color:#bd7153

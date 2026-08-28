@@ -2,13 +2,13 @@
 <div class="page">
     <header class="header">
         <div class="container header-inner">
-            <a href="#" class="logo">homio<span>.</span></a>
+            <a href="" class="logo">homio<span>.</span></a>
             <nav class="nav">
-                <a href="#services">Услуги</a>
-                <a href="#how">Как это работает</a>
-                <a href="#faq">Помощь</a>
+                <p class="services" @click="router.push('/services')">Услуги</p>
+                <p href="">Как это работает</p>
+                <p href="">Помощь</p>
             </nav>
-            <a href="" class="header-button">Войти</a>
+            <p @click="router.push('login')" class="header-button">Войти</p>
         </div>
     </header>
     <main>
@@ -19,8 +19,8 @@
                     <h1>Домашние дела <em>решаются проще.</em></h1>
                     <p class="hero-description">Уборка, ремонт, сантехника и другие бытовые задачи. Расскажите, что нужно сделать — мы поможем решить проблему.</p>
                     <div class="hero-actions">
-                        <a href="#order" class="primary-button">Заказать услугу <span>→</span></a>
-                        <a href="#services" class="secondary-button">Посмотреть услуги</a>
+                        <a href="" class="primary-button">Заказать услугу <span>→</span></a>
+                        <a href="" class="secondary-button">Посмотреть услуги</a>
                     </div>
                     <div class="hero-info">
                         <div class="stat">
@@ -88,13 +88,13 @@
                         </div>
                         <div class="service-footer">
                             <span>{{ service.price }}</span>
-                            <a href="#order">Заказать</a>
+                            <a href="">Заказать</a>
                         </div>
                     </article>
                 </div>
                 <div class="services-note">
                     <span>Нужна другая помощь?</span>
-                    <a href="#order">Опишите задачу</a>
+                    <a href="">Опишите задачу</a>
                 </div>
             </div>
         </section>
@@ -124,7 +124,7 @@
                     <span class="eyebrow">ПОЧЕМУ HOMIO</span>
                     <h2>Не нужно искать, кому позвонить.</h2>
                     <p>Одна заявка вместо десятка поисков. Расскажите о задаче, укажите адрес и удобное время — остальное мы организуем.</p>
-                    <a href="#order" class="text-link">Оставить заявку →</a>
+                    <a href="" class="text-link">Оставить заявку →</a>
                 </div>
                 <div class="why-list">
                     <div class="why-item">
@@ -196,22 +196,22 @@
     <footer>
         <div class="container footer-inner">
             <div class="footer-brand">
-                <a href="#" class="logo">homio<span>.</span></a>
+                <a href="" class="logo">homio<span>.</span></a>
                 <p>Помогаем решать бытовые задачи проще.</p>
             </div>
             <div class="footer-links">
                 <div>
                     <strong>Услуги</strong>
-                    <a href="#services">Уборка</a>
-                    <a href="#services">Ремонт</a>
-                    <a href="#services">Сантехника</a>
-                    <a href="#services">Электрика</a>
+                    <a href="">Уборка</a>
+                    <a href="">Ремонт</a>
+                    <a href="">Сантехника</a>
+                    <a href="">Электрика</a>
                 </div>
                 <div>
                     <strong>Информация</strong>
-                    <a href="#how">Как это работает</a>
-                    <a href="#faq">Помощь</a>
-                    <a href="#">Контакты</a>
+                    <a href="">Как это работает</a>
+                    <a href="">Помощь</a>
+                    <a href="">Контакты</a>
                 </div>
             </div>
         </div>
@@ -225,7 +225,9 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
+const router=useRouter()
 const faqOpen=ref<number|null>(null)
 const services=[
     {
@@ -290,6 +292,7 @@ function toggleFaq(index: number){
 }
 :global(html){
     scroll-behavior:smooth;
+    scrollbar-gutter:stable;
 }
 :global(body){
     margin:0;
@@ -1101,5 +1104,8 @@ footer{
         flex-direction:column;
         gap:8px;
     }
+}
+.services{
+    cursor:pointer;
 }
 </style>
