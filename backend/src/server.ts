@@ -8,8 +8,10 @@ app.use(cors({
     credentials:true
 }))
 
-const PORT=process.env.JWT_SECRET
+const PORT=process.env.PORT
 
+import authRoutes from './routes/auth.routes'
+app.use('/auth',authRoutes)
 
 app.listen(PORT,()=>{
     console.log(`THE SERVER IS RUNNING ON http://localhost:${PORT}`)
