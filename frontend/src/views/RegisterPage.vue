@@ -22,13 +22,13 @@
                     <h2>Создать аккаунт</h2>
                     <p>Заполните форму — это займёт меньше минуты.</p>
                 </div>
-                <form class="auth-form">
-                    <div class="field"><label for="name">Имя</label><input id="name" type="text" placeholder="Ваше имя"></div>
-                    <div class="field"><label for="email">Email</label><input id="email" type="email" placeholder="you@example.com"></div>
-                    <div class="field"><label for="password">Пароль</label><input id="password" type="password" placeholder="Минимум 8 символов"></div>
-                    <div class="field"><label for="password-confirm">Повторите пароль</label><input id="password-confirm" type="password" placeholder="Введите пароль ещё раз"></div>
+                <form class="auth-form" @submit.prevent="register">
+                    <div class="field"><label for="name">Имя</label><input v-model="name" id="name" type="text" placeholder="Ваше имя"></div>
+                    <div class="field"><label for="email">Email</label><input v-model="email" id="email" type="text" placeholder="you@example.com"></div>
+                    <div class="field"><label for="password">Пароль</label><input v-model="password" id="password" type="password" placeholder="Минимум 8 символов"></div>
+                    <div class="field"><label for="password-confirm">Повторите пароль</label><input v-model="confirmPassword" id="password-confirm" type="password" placeholder="Введите пароль ещё раз"></div>
                     <label class="checkbox"><input type="checkbox"><span>Я принимаю <a href="#">условия использования</a> и <a href="#">политику конфиденциальности</a></span></label>
-                    <button type="button" class="primary-button"><router-link to="/register">Создать аккаунт</router-link><span>→</span></button>
+                    <button type="submit" class="primary-button">Создать аккаунт<span>→</span></button>
                 </form>
                 <div class="form-divider"><span>или</span></div>
                 <button type="button" class="secondary-button">Зарегистрироваться через Google</button>
@@ -43,6 +43,27 @@
 </template>
 
 <script setup>
+import {ref} from 'vue'
+import axios from 'axios'
+import { useRouter } from 'vue-router'
+
+const router=useRouter()
+const email=ref('')
+const name=ref('')
+const password=ref('')
+const confirmPassword=ref('')
+
+const register=async()=>{
+    try{
+        const response=await axios.post('http://localhost:5178/auth/register',{name:name.value,email:email.value,password:password.value})
+        console.log('success')
+        router.push('/')
+
+    }catch(error){
+        console.error(error)
+        alert('register error')
+    }
+}
 
 </script>
 
