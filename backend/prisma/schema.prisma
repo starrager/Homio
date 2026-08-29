@@ -12,7 +12,8 @@ model User {
     email     String    @unique
     phone     String?   @unique
     password  String
-    name      String
+    nameFirst String
+    nameLast  String
     role      String    @default("CLIENT")
     orders    Order[]
     addresses Address[]

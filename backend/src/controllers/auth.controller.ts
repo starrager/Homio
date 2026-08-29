@@ -3,12 +3,11 @@ import prisma from '../prisma'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 
-const jWT_SECRET=process.env.JWT_SECRET!
+const JWT_SECRET=process.env.JWT_SECRET!
 
 export const register=async(req:Request,res:Response)=>{
     try{
-        const {email,name,password}=req.body
-        const userId=req.userId
+        const {email,nameFirst,nameLast,password}=req.body
 
         const userExisting=await prisma.user.findUnique({where:{email:email}})
         if(userExisting)return res.status(400).json({error:'user already exists'})
@@ -17,14 +16,15 @@ export const register=async(req:Request,res:Response)=>{
         
         const user=await prisma.user.create({
             data:{
-                name,
+                nameFirst,
+                nameLast,
                 email,
                 password:hashedPassword,
             }
         })
 
         const token=jwt.sign(
-            {userId:userId,email:email,role:user.role},jWT_SECRET,{expiresIn:'7d'}
+            {userId:user.id,email:email,role:user.role},JWT_SECRET,{expiresIn:'7d'}
         )
 
         const {password:userPassword,...userWithoutPassoword}=user
@@ -37,9 +37,8 @@ export const register=async(req:Request,res:Response)=>{
 }
 
 export const login=async(req:Request,res:Response)=>{
-    try {
+    try{
         const {email,password}=req.body
-        const userId=req.userId
         const user=await prisma.user.findUnique({where:{email:email}})
         
         if(!user)return res.status(404).json({error:'user not found'})
@@ -48,7 +47,7 @@ export const login=async(req:Request,res:Response)=>{
         if(!isValidPassword)return res.status(401).json({error:'invalid password'})
 
         const token=jwt.sign(
-            {userId:userId,email:email,role:user.role},jWT_SECRET,{expiresIn:'7d'}
+            {userId:user.id,email:email,role:user.role},JWT_SECRET,{expiresIn:'7d'}
         )
         
         const {password:userPassword,...userWithoutPassword}=user
@@ -57,5 +56,23 @@ export const login=async(req:Request,res:Response)=>{
     }catch(error){
         console.error(error)
         return res.status(500).json({error:'login error'})
+    }
+}
+
+export const getProfile=async(req:Request,res:Response)=>{
+    try{
+        const userId=req.userId
+
+        const user=await prisma.user.findUnique({where:{id:userId}})
+        if(!user)return res.status(400).json({error:'not authorized'})
+
+        res.json({
+            firstName:user.nameFirst,
+            lastName:user.nameLast,
+            email:user.email
+        })
+    }catch(error){
+        console.error(error)
+        return res.status(500).json({error:'get profile error'})
     }
 }
