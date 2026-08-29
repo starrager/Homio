@@ -4,12 +4,12 @@
         <div class="container header-inner">
             <a href="" class="logo">homio<span>.</span></a>
             <nav class="nav">
-                <a class="services" @click="router.push('/services')">Услуги</a>
+                <button type="button" @click="router.push('/services')" class="header_button">Услуги</button>
                 <a href="#how">Как это работает</a>
                 <a href="#faq">Помощь</a>
-                <a class="profile" @click="router.push('/profile')">Профиль</a>
+                <button type="button" @click="router.push('/profile')" class="header_button">Профиль</button>
             </nav>
-            <p @click="router.push('login')" class="header-button">Войти</p>
+            <button type="button" @click="router.push('/login')" class="header_button">Войти</button>
         </div>
     </header>
     <main>
@@ -325,6 +325,7 @@ function toggleFaq(index: number){
     display:flex;
     align-items:center;
     justify-content:space-between;
+    min-height:48px;
 }
 .logo{
     color:#657254;
@@ -349,8 +350,19 @@ function toggleFaq(index: number){
 .nav a:hover{
     color:#657254;
 }
+.header_button{
+    cursor:pointer;
+    border:0;
+    margin:0;
+    color:#73766e;
+    font-size:16px;
+    font-weight:700;
+    transition:background .2s ease,transform .2s ease;
+}
 .header-button{
     cursor:pointer;
+    border:0;
+    margin:0;
     padding:14px 26px;
     border-radius:8px;
     background:#657254;

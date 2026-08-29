@@ -4,9 +4,9 @@
             <div class="container header-inner">
                 <RouterLink to="/" class="logo">homio<span>.</span></RouterLink>
                 <nav class="nav">
-                    <RouterLink to="/services">Услуги</RouterLink>
-                    <RouterLink to="/orders">Мои заказы</RouterLink>
-                    <RouterLink to="/help">Помощь</RouterLink>
+                    <RouterLink class="header-button" to="/services">Услуги</RouterLink>
+                    <RouterLink class="header-button" to="/orders">Мои заказы</RouterLink>
+                    <RouterLink class="header-button" to="/help">Помощь</RouterLink>
                 </nav>
                 <div class="header-user">
                     <div class="user-avatar">А</div>
@@ -211,10 +211,11 @@
     
 <style scoped>
 :global(*){
-    box-sizing:border-box
+    box-sizing:border-box;
 }
 :global(html){
-    scroll-behavior:smooth
+    scroll-behavior:smooth;
+    scrollbar-gutter:stable;
 }
 :global(body){
     margin:0;
@@ -245,7 +246,8 @@
 .header-inner{
     display:flex;
     align-items:center;
-    justify-content:space-between
+    justify-content:space-between;
+    min-height:48px;
 }
 .logo{
     color:#657254;
@@ -422,6 +424,9 @@
     border:1px solid #ddd9cf;
     border-radius:12px;
     background:#fbfaf6
+}
+.header-button{
+    margin:0;
 }
 .card-heading{
     padding-bottom:27px;

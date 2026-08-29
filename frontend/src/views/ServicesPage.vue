@@ -4,11 +4,12 @@
             <div class="container header-inner">
                 <router-link class="logo" to="/">homio<span>.</span></router-link>
                 <nav class="nav">
-                    <a href="#services">Услуги</a>
-                    <a href="">Как это работает</a>
-                    <a href="">Помощь</a>
+                <button type="button" @click="router.push('/services')" class="header_button">Услуги</button>
+                <a href="#how">Как это работает</a>
+                <a href="#faq">Помощь</a>
+                <button type="button" @click="router.push('/profile')" class="header_button">Профиль</button>
                 </nav>
-                <router-link class="header-button" to="/login">Войти</router-link>
+                <button type="button" class="header_button" @click="router.push('/login')"">Войти</button>
             </div>
         </header>
         <main>
@@ -353,10 +354,11 @@ const currentServices=computed(()=>{
 
 <style scoped>
 :global(*){
-    box-sizing:border-box
+    box-sizing:border-box;
 }
 :global(html){
-    scroll-behavior:smooth
+    scroll-behavior:smooth;
+    scrollbar-gutter:stable;
 }
 :global(body){
     margin:0;
@@ -384,10 +386,20 @@ const currentServices=computed(()=>{
     background:#f7f5ef;
     border-bottom:1px solid #e5e1d7
 }
+.header_button{
+    cursor:pointer;
+    border:0;
+    margin:0;
+    color:#73766e;
+    font-size:16px;
+    font-weight:700;
+    transition:background .2s ease,transform .2s ease;
+}
 .header-inner{
     display:flex;
     align-items:center;
-    justify-content:space-between
+    justify-content:space-between;
+    min-height:48px;
 }
 .logo{
     color:#657254;
@@ -414,6 +426,7 @@ const currentServices=computed(()=>{
 }
 .header-button{
     padding:14px 26px;
+    margin:0;
     border-radius:8px;
     background:#657254;
     color:#fff;
