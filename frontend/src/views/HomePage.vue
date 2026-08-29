@@ -4,9 +4,10 @@
         <div class="container header-inner">
             <a href="" class="logo">homio<span>.</span></a>
             <nav class="nav">
-                <p class="services" @click="router.push('/services')">Услуги</p>
-                <p href="">Как это работает</p>
-                <p href="">Помощь</p>
+                <a class="services" @click="router.push('/services')">Услуги</a>
+                <a href="#how">Как это работает</a>
+                <a href="#faq">Помощь</a>
+                <a class="profile" @click="router.push('/profile')">Профиль</a>
             </nav>
             <p @click="router.push('login')" class="header-button">Войти</p>
         </div>
@@ -20,7 +21,7 @@
                     <p class="hero-description">Уборка, ремонт, сантехника и другие бытовые задачи. Расскажите, что нужно сделать — мы поможем решить проблему.</p>
                     <div class="hero-actions">
                         <a href="" class="primary-button">Заказать услугу <span>→</span></a>
-                        <a href="" class="secondary-button">Посмотреть услуги</a>
+                        <a @click="router.push('/services')" class="secondary-button">Посмотреть услуги</a>
                     </div>
                     <div class="hero-info">
                         <div class="stat">
@@ -234,25 +235,25 @@ const services=[
         icon:'✦',
         title:'Уборка',
         description:'Квартиры, дома и генеральная уборка',
-        price:'от 40 €',
+        price:'от 3 500 ₽',
     },
     {
         icon:'⌁',
         title:'Мелкий ремонт',
         description:'Собрать мебель, повесить полку, что-то починить',
-        price:'от 30 €',
+        price:'от 2 500 ₽',
     },
     {
         icon:'◌',
         title:'Сантехника',
         description:'Краны, трубы, раковины и протечки',
-        price:'от 40 €',
+        price:'от 3 500 ₽',
     },
     {
         icon:'⌂',
         title:'Электрика',
         description:'Розетки, светильники и бытовая электрика',
-        price:'от 45 €',
+        price:'от 4 000 ₽',
     },
 ]
 
@@ -349,6 +350,7 @@ function toggleFaq(index: number){
     color:#657254;
 }
 .header-button{
+    cursor:pointer;
     padding:14px 26px;
     border-radius:8px;
     background:#657254;
@@ -384,6 +386,7 @@ function toggleFaq(index: number){
     font-size:20px;
 }
 .secondary-button{
+    cursor:pointer;
     display:inline-flex;
     align-items:center;
     justify-content:center;
@@ -1105,7 +1108,7 @@ footer{
         gap:8px;
     }
 }
-.services{
+.services,.profile{
     cursor:pointer;
 }
 </style>
