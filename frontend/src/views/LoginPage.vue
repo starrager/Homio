@@ -101,7 +101,8 @@ const login=async()=>{
 .header-inner{
     display:flex;
     align-items:center;
-    justify-content:space-between
+    justify-content:space-between;
+    min-height:48px;
 }
 .logo{
     color:#657254;

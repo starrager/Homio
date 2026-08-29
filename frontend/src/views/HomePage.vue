@@ -5,8 +5,8 @@
             <a href="" class="logo">homio<span>.</span></a>
             <nav class="nav">
                 <button type="button" @click="router.push('/services')" class="header_button">Услуги</button>
-                <a href="#how">Как это работает</a>
-                <a href="#faq">Помощь</a>
+                <a href="#how" class="header_button">Как это работает</a>
+                <a href="#faq" class="header_button">Помощь</a>
                 <button type="button" @click="router.push('/profile')" class="header_button">Профиль</button>
             </nav>
             <button type="button" @click="router.push('/login')" class="header_button">Войти</button>
@@ -354,6 +354,8 @@ function toggleFaq(index: number){
     cursor:pointer;
     border:0;
     margin:0;
+    padding:0;
+    background:none;
     color:#73766e;
     font-size:16px;
     font-weight:700;

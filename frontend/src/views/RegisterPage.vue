@@ -112,13 +112,14 @@ const register=async()=>{
 .header-inner{
     display:flex;
     align-items:center;
-    justify-content:space-between
+    justify-content:space-between;
+    min-height:48px
 }
 .logo{
     color:#657254;
     font-size:28px;
     font-weight:800;
-    letter-spacing:-1.5px;
+    letter-spacing:-1.5px
 }
 .logo span{
     color:#bd7153

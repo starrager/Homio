@@ -5,11 +5,11 @@
                 <router-link class="logo" to="/">homio<span>.</span></router-link>
                 <nav class="nav">
                 <button type="button" @click="router.push('/services')" class="header_button">Услуги</button>
-                <a href="#how">Как это работает</a>
-                <a href="#faq">Помощь</a>
+                <button type="button" @click="router.push('/#how')" class="header_button">Как это работает</button>
+                <button type="button" @click="router.push('/#faq')" class="header_button">Помощь</button>
                 <button type="button" @click="router.push('/profile')" class="header_button">Профиль</button>
                 </nav>
-                <button type="button" class="header_button" @click="router.push('/login')"">Войти</button>
+                <button type="button" class="header_button" @click="router.push('/login')">Войти</button>
             </div>
         </header>
         <main>
@@ -390,6 +390,8 @@ const currentServices=computed(()=>{
     cursor:pointer;
     border:0;
     margin:0;
+    padding:0;
+    background:none;
     color:#73766e;
     font-size:16px;
     font-weight:700;
