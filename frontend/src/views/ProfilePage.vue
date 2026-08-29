@@ -25,10 +25,10 @@
                     <div class="profile-layout">
                         <aside class="sidebar">
                             <div class="sidebar-user">
-                                <div class="sidebar-avatar">А</div>
+                                <div class="sidebar-avatar"></div>
                                 <div>
-                                    <strong>Анна</strong>
-                                    <span>anna@example.com</span>
+                                    <strong></strong>
+                                    <span></span>
                                 </div>
                             </div>
                             <div class="sidebar-menu">
@@ -71,7 +71,7 @@
                                 </div>
                                 <form class="profile-form">
                                     <div class="avatar-row">
-                                        <div class="large-avatar">А</div>
+                                        <div class="large-avatar"></div>
                                         <div class="avatar-info">
                                             <strong>Фото профиля</strong>
                                             <p>Добавьте фотографию, чтобы специалистам было проще вас узнать.</p>
@@ -81,23 +81,23 @@
                                     <div class="form-grid">
                                         <div class="form-group">
                                             <label for="firstName">Имя</label>
-                                            <input id="firstName" type="text" value="Анна" placeholder="Введите имя">
+                                            <input id="firstName" type="text" v-model="firstName" placeholder="Введите имя">
                                         </div>
                                         <div class="form-group">
                                             <label for="lastName">Фамилия</label>
-                                            <input id="lastName" type="text" value="Иванова" placeholder="Введите фамилию">
+                                            <input id="lastName" type="text" v-model="lastName" placeholder="Введите фамилию">
                                         </div>
                                         <div class="form-group">
                                             <label for="email">Email</label>
-                                            <input id="email" type="email" value="anna@example.com" placeholder="you@example.com">
+                                            <input id="email" type="email" v-model="email" placeholder="you@example.com">
                                         </div>
                                         <div class="form-group">
                                             <label for="phone">Телефон</label>
-                                            <input id="phone" type="tel" value="+48 600 000 000" placeholder="+48 000 000 000">
+                                            <input id="phone" type="tel" v-model="phone" placeholder="+79 000 000 000">
                                         </div>
                                         <div class="form-group full">
                                             <label for="address">Адрес</label>
-                                            <input id="address" type="text" value="Warszawa, ul. Nowa 12" placeholder="Введите адрес">
+                                            <input id="address" type="text" value="" placeholder="Введите адрес">
                                             <small>Используется для оформления заказа и визита специалиста.</small>
                                         </div>
                                     </div>
@@ -206,7 +206,37 @@
 </template>
     
 <script setup lang="ts">
+import axios from 'axios'
+import {useRouter} from 'vue-router'
+import {ref,onMounted} from 'vue'
 
+const firstName=ref('')
+const lastName=ref('')
+const email=ref('')
+const phone=ref('')
+const address=ref('')
+const notifications=ref([])
+const passwords=ref([])
+
+const getProfile=async()=>{
+    try{
+        const token=localStorage.getItem('token')
+        
+        const response=await axios.get('http://localhost:5178/auth/profile',{headers:{Authorization:`Bearer ${token}`}})
+
+        firstName.value=response.data.firstName
+        lastName.value=response.data.lastName
+        email.value=response.data.email
+
+    }catch(error){
+        console.error(error)
+        alert('ошибка загрузки данных пользователя')
+    }
+}
+
+onMounted(()=>{
+    getProfile()
+})
 </script>
     
 <style scoped>

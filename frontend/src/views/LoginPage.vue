@@ -55,6 +55,7 @@ const password=ref('')
 const login=async()=>{
     try{
         const response=await axios.post('http://localhost:5178/auth/login',{email:email.value,password:password.value})
+        localStorage.setItem('token',response.data.token)
         router.push('/')
     }catch(error){
         console.error(error)

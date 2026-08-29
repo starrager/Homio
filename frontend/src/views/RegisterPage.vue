@@ -23,7 +23,8 @@
                     <p>Заполните форму — это займёт меньше минуты.</p>
                 </div>
                 <form class="auth-form" @submit.prevent="register">
-                    <div class="field"><label for="name">Имя</label><input v-model="name" id="name" type="text" placeholder="Ваше имя"></div>
+                    <div class="field"><label for="nameFirst">Имя</label><input v-model="nameFirst" id="nameFirst" type="text" placeholder="Ваше имя"></div>
+                    <div class="field"><label for="nameLast">Фамилия</label><input v-model="nameLast" id="nameLast" type="text" placeholder="Ваша фамилия"></div>
                     <div class="field"><label for="email">Email</label><input v-model="email" id="email" type="text" placeholder="you@example.com"></div>
                     <div class="field"><label for="password">Пароль</label><input v-model="password" id="password" type="password" placeholder="Минимум 8 символов"></div>
                     <div class="field"><label for="password-confirm">Повторите пароль</label><input v-model="confirmPassword" id="password-confirm" type="password" placeholder="Введите пароль ещё раз"></div>
@@ -49,7 +50,8 @@ import { useRouter } from 'vue-router'
 
 const router=useRouter()
 const email=ref('')
-const name=ref('')
+const nameFirst=ref('')
+const nameLast=ref('')
 const password=ref('')
 const confirmPassword=ref('')
 const agreed=ref(false)
@@ -64,7 +66,7 @@ const register=async()=>{
             alert('Примите условия использования')
             return
         }
-        const response=await axios.post('http://localhost:5178/auth/register',{name:name.value,email:email.value,password:password.value})
+        const response=await axios.post('http://localhost:5178/auth/register',{nameFirst:nameFirst.value,nameLast:nameLast.value,email:email.value,password:password.value})
         router.push('/')
     }catch(error){
         console.error(error)
