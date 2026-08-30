@@ -69,7 +69,9 @@ export const getProfile=async(req:Request,res:Response)=>{
         res.json({
             firstName:user.nameFirst,
             lastName:user.nameLast,
-            email:user.email
+            email:user.email,
+            phone:user.phone,
+            address:user.address
         })
     }catch(error){
         console.error(error)
