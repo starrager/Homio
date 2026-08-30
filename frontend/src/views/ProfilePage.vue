@@ -118,21 +118,21 @@
                                 <form class="password-form">
                                     <div class="form-group">
                                         <label for="oldPassword">Текущий пароль</label>
-                                        <input id="oldPassword" type="password" placeholder="Введите текущий пароль">
+                                        <input id="oldPassword" v-model="passwords.currentPassword" type="password" placeholder="Введите текущий пароль">
                                     </div>
                                     <div class="form-grid">
                                         <div class="form-group">
                                             <label for="newPassword">Новый пароль</label>
-                                            <input id="newPassword" type="password" placeholder="Новый пароль">
+                                            <input id="newPassword" v-model="passwords.newPassword" type="password" placeholder="Новый пароль">
                                         </div>
                                         <div class="form-group">
                                             <label for="repeatPassword">Повторите пароль</label>
-                                            <input id="repeatPassword" type="password" placeholder="Повторите новый пароль">
+                                            <input id="repeatPassword" v-model="passwords.confirmPassword" type="password" placeholder="Повторите новый пароль">
                                         </div>
                                     </div>
                                     <div class="form-footer">
                                         <span>Пароль можно изменить в любой момент.</span>
-                                        <button type="button" class="secondary-button">Изменить пароль</button>
+                                        <button type="button" class="secondary-button" @click="changePassword()">Изменить пароль</button>
                                     </div>
                                 </form>
                             </section>
@@ -202,7 +202,11 @@ const email=ref('')
 const phone=ref('')
 const address=ref('')
 const notifications=ref([])
-const passwords=ref([])
+const passwords=ref({
+    currentPassword:'',
+    newPassword:'',
+    confirmPassword:''
+})
 
 const getProfile=async()=>{
     try{
@@ -217,6 +221,34 @@ const getProfile=async()=>{
     }catch(error){
         console.error(error)
         alert('ошибка загрузки данных пользователя')
+    }
+}
+
+const changePassword=async()=>{
+    try{
+        if(!passwords.value.confirmPassword||!passwords.value.newPassword||!passwords.value.currentPassword){
+            alert('проверьте формы для изменения пароля')
+            return
+        }
+        if(passwords.value.confirmPassword!==passwords.value.newPassword){
+            alert('пароли не совпадют')
+            return
+        }
+
+        const token=localStorage.getItem('token')
+        const response=await axios.put('http://localhost:5178/changepassword/',{
+                newPassword:passwords.value.newPassword,
+                currentPassword:passwords.value.currentPassword,
+                confirmPassword:passwords.value.confirmPassword
+            },{headers:{Authorization:`Bearer ${token}`}})
+        passwords.value.newPassword=''
+        passwords.value.currentPassword=response.data.password
+        passwords.value.confirmPassword=''
+
+        alert('pass is new')
+    }catch(error){
+        console.error(error)
+        alert('ошибка изменения пароля')
     }
 }
 
