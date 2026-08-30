@@ -71,7 +71,10 @@ export const getProfile=async(req:Request,res:Response)=>{
             lastName:user.nameLast,
             email:user.email,
             phone:user.phone,
-            address:user.address
+            address:user.address,
+            order:user.order,
+            reminders:user.reminders,
+            news:user.news
         })
     }catch(error){
         console.error(error)

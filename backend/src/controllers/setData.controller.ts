@@ -43,18 +43,20 @@ export const setAddress=async(req:Request,res:Response)=>{
 
 export const setNotifications=async(req:Request,res:Response)=>{
     try{
+        const userId=req.userId
+        const {order,reminders,news}=req.body
+        const user=await prisma.user.update({
+            where:{id:userId},
+            data:{
+                order:order,
+                reminders:reminders,
+                news:news
+            }
+        })
 
+        res.json(user)
     }catch(error){
         console.error(error)
         return res.status(500).json({error:'set notifications error'})
-    }
-}
-
-export const saveData=async(req:Request,res:Response)=>{
-    try{
-
-    }catch(error){
-        console.error(error)
-        return res.status(500).json({error:'save data error'})
     }
 }
