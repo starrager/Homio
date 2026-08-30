@@ -150,7 +150,7 @@
                                             <strong>Обновления заказов</strong>
                                             <span>Статусы, назначение специалиста и изменения заказа.</span>
                                         </div>
-                                        <input type="checkbox" checked>
+                                        <input type="checkbox" checked @change="setNotifications" v-model="notifications.order">
                                         <span class="toggle"></span>
                                     </label>
                                     <label class="notification-item">
@@ -158,7 +158,7 @@
                                             <strong>Напоминания</strong>
                                             <span>Напоминание о предстоящем визите специалиста.</span>
                                         </div>
-                                        <input type="checkbox" checked>
+                                        <input type="checkbox" checked @change="setNotifications" v-model="notifications.reminders">
                                         <span class="toggle"></span>
                                     </label>
                                     <label class="notification-item">
@@ -166,7 +166,7 @@
                                             <strong>Новости Homio</strong>
                                             <span>Новые услуги, предложения и полезные новости.</span>
                                         </div>
-                                        <input type="checkbox">
+                                        <input type="checkbox" @change="setNotifications" v-model="notifications.news">
                                         <span class="toggle"></span>
                                     </label>
                                 </div>
@@ -201,12 +201,17 @@ const lastName=ref('')
 const email=ref('')
 const phone=ref('')
 const address=ref('')
-const notifications=ref([])
+const notifications=ref({
+    order:false,
+    reminders:false,
+    news:false
+})
 const passwords=ref({
     currentPassword:'',
     newPassword:'',
     confirmPassword:''
 })
+
 
 const getProfile=async()=>{
     try{
@@ -218,6 +223,9 @@ const getProfile=async()=>{
         email.value=response.data.email
         phone.value=response.data.phone
         address.value=response.data.address
+        notifications.value.order=response.data.order
+        notifications.value.reminders=response.data.reminders
+        notifications.value.news=response.data.news
     }catch(error){
         console.error(error)
         alert('ошибка загрузки данных пользователя')
@@ -252,6 +260,23 @@ const changePassword=async()=>{
     }
 }
 
+const setNotifications=async()=>{
+    try{
+        const token=localStorage.getItem('token')
+        const response=await axios.put('http://localhost:5178/setdata/setnotifications',
+        {order:notifications.value.order,reminders:notifications.value.reminders,news:notifications.value.news},
+        {headers:{Authorization:`Bearer ${token}`}})
+
+        notifications.value.order=response.data.order
+        notifications.value.reminders=response.data.reminders
+        notifications.value.news=response.data.news
+
+    }catch(error){
+        console.error(error)
+        alert('ошибка уведомлений')
+    }
+}
+
 const setPhone=async()=>{
     try{
         const token=localStorage.getItem('token')
@@ -278,6 +303,7 @@ const saveData=async()=>{
     try{
         await setPhone()
         await setAddress()
+        await setNotifications()
         await getProfile()
     }catch(error){
         console.error(error)
