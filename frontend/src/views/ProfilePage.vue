@@ -9,8 +9,8 @@
                     <RouterLink class="header-button" to="/help">Помощь</RouterLink>
                 </nav>
                 <div class="header-user">
-                    <div class="user-avatar">А</div>
-                    <span>Анна</span>
+                    <div class="user-avatar">{{ firstName[0] }}</div>
+                    <span>{{ firstName }}</span>
                 </div>
             </div>
         </header>
@@ -25,10 +25,10 @@
                     <div class="profile-layout">
                         <aside class="sidebar">
                             <div class="sidebar-user">
-                                <div class="sidebar-avatar"></div>
+                                <div class="sidebar-avatar">{{ firstName[0] }}</div>
                                 <div>
-                                    <strong></strong>
-                                    <span></span>
+                                    <strong>{{ firstName }}</strong>
+                                    <span>{{ lastName }}</span>
                                 </div>
                             </div>
                             <div class="sidebar-menu">
@@ -71,7 +71,7 @@
                                 </div>
                                 <form class="profile-form">
                                     <div class="avatar-row">
-                                        <div class="large-avatar"></div>
+                                        <div class="large-avatar">{{ firstName[0] }}</div>
                                         <div class="avatar-info">
                                             <strong>Фото профиля</strong>
                                             <p>Добавьте фотографию, чтобы специалистам было проще вас узнать.</p>
@@ -97,13 +97,13 @@
                                         </div>
                                         <div class="form-group full">
                                             <label for="address">Адрес</label>
-                                            <input id="address" type="text" value="" placeholder="Введите адрес">
+                                            <input id="address" type="text" v-model="address" placeholder="Введите адрес">
                                             <small>Используется для оформления заказа и визита специалиста.</small>
                                         </div>
                                     </div>
                                     <div class="form-footer">
                                         <span>Последнее изменение: сегодня</span>
-                                        <button type="button" class="primary-button">Сохранить изменения<span>→</span></button>
+                                        <button type="button" class="primary-button" @click="saveData()">Сохранить изменения<span>→</span></button>
                                     </div>
                                 </form>
                             </section>
@@ -182,20 +182,6 @@
                     <RouterLink to="/" class="logo">homio<span>.</span></RouterLink>
                     <p>Помогаем решать бытовые задачи проще.</p>
                 </div>
-                <div class="footer-links">
-                    <div>
-                        <strong>Аккаунт</strong>
-                        <RouterLink to="/profile">Профиль</RouterLink>
-                        <RouterLink to="/orders">Мои заказы</RouterLink>
-                        <RouterLink to="/history">История</RouterLink>
-                    </div>
-                    <div>
-                        <strong>Помощь</strong>
-                        <RouterLink to="/services">Услуги</RouterLink>
-                        <RouterLink to="/help">Частые вопросы</RouterLink>
-                        <a href="#">Контакты</a>
-                    </div>
-                </div>
             </div>
             <div class="container footer-bottom">
                 <span>© 2026 Homio</span>
@@ -221,16 +207,49 @@ const passwords=ref([])
 const getProfile=async()=>{
     try{
         const token=localStorage.getItem('token')
-        
         const response=await axios.get('http://localhost:5178/auth/profile',{headers:{Authorization:`Bearer ${token}`}})
 
         firstName.value=response.data.firstName
         lastName.value=response.data.lastName
         email.value=response.data.email
-
+        phone.value=response.data.phone
+        address.value=response.data.address
     }catch(error){
         console.error(error)
         alert('ошибка загрузки данных пользователя')
+    }
+}
+
+const setPhone=async()=>{
+    try{
+        const token=localStorage.getItem('token')
+        const response=await axios.put('http://localhost:5178/setdata/setphone',{phone:phone.value},{headers:{Authorization:`Bearer ${token}`}})
+        phone.value=response.data.phone
+    }catch(error){
+        console.error(error)
+        alert('error set phone')
+    }
+}
+
+const setAddress=async()=>{
+    try{
+        const token=localStorage.getItem('token')
+        const response=await axios.put('http://localhost:5178/setdata/setaddress',{address:address.value},{headers:{Authorization:`Bearer ${token}`}})
+        address.value=response.data.address
+    }catch(error){
+        console.error(error)
+        alert('error set address')
+    }
+}
+
+const saveData=async()=>{
+    try{
+        await setPhone()
+        await setAddress()
+        await getProfile()
+    }catch(error){
+        console.error(error)
+        alert('error save data')
     }
 }
 

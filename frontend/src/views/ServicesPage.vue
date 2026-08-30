@@ -5,8 +5,8 @@
                 <router-link class="logo" to="/">homio<span>.</span></router-link>
                 <nav class="nav">
                 <button type="button" @click="router.push('/services')" class="header_button">Услуги</button>
-                <button type="button" @click="router.push('/#how')" class="header_button">Как это работает</button>
-                <button type="button" @click="router.push('/#faq')" class="header_button">Помощь</button>
+                <a href="/#how" class="header_button">Как это работает</a>
+                <a href="/#faq" class="header_button">Помощь</a>
                 <button type="button" @click="router.push('/profile')" class="header_button">Профиль</button>
                 </nav>
                 <button type="button" class="header_button" @click="router.push('/login')">Войти</button>
