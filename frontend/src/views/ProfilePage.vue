@@ -6,7 +6,7 @@
                 <nav class="nav">
                     <RouterLink class="header-button" to="/services">Услуги</RouterLink>
                     <RouterLink class="header-button" to="/orders">Мои заказы</RouterLink>
-                    <RouterLink class="header-button" to="/help">Помощь</RouterLink>
+                    <a href="/#faq" class="header_button">Помощь</a>
                 </nav>
                 <div class="header-user">
                     <div class="user-avatar">{{ firstName[0] }}</div>
@@ -54,7 +54,7 @@
                                 </RouterLink>
                             </div>
                             <div class="sidebar-bottom">
-                                <button type="button" class="logout-button">
+                                <button type="button" class="logout-button" @click="logout()">
                                     <span>↪</span>
                                     Выйти
                                 </button>
@@ -195,6 +195,7 @@
 import axios from 'axios'
 import {useRouter} from 'vue-router'
 import {ref,onMounted} from 'vue'
+import router from '@/router/router'
 
 const firstName=ref('')
 const lastName=ref('')
@@ -308,6 +309,17 @@ const saveData=async()=>{
     }catch(error){
         console.error(error)
         alert('error save data')
+    }
+}
+
+const logout=async()=>{
+    try{
+        localStorage.removeItem('token')
+        localStorage.removeItem('user')
+        router.push('/login')
+    }catch(error){
+        console.error(error)
+        alert('ошибка выхода из аккаунта')
     }
 }
 
@@ -515,7 +527,7 @@ onMounted(()=>{
     padding:11px 13px;
     border:0;
     background:transparent;
-    color:#a8684e;
+    color:rgb(165, 43, 43);
     font-size:14px;
     font-weight:700;
     text-align:left;

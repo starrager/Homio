@@ -7,9 +7,10 @@
                 <button type="button" @click="router.push('/services')" class="header_button">Услуги</button>
                 <a href="/#how" class="header_button">Как это работает</a>
                 <a href="/#faq" class="header_button">Помощь</a>
-                <button type="button" @click="router.push('/profile')" class="header_button">Профиль</button>
+                <button v-if="auth" type="button" @click="router.push('/profile')" class="header_button">Профиль</button>
                 </nav>
-                <button type="button" class="header_button" @click="router.push('/login')">Войти</button>
+                <button v-if="!auth" type="button" @click="router.push('/login')" class="header_button">Войти</button>
+                <button v-else-if="auth" type="button" @click="logout()" class="header_button-exit">Выйти</button>
             </div>
         </header>
         <main>
@@ -191,9 +192,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref,onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 
+const auth=ref(false)
 const router=useRouter()
 const selectedCategory=ref('Уборка')
 const selectedService=ref('Регулярная уборка')
@@ -343,12 +345,38 @@ const categories=[
     },
 ]
 
+const logout=async()=>{
+    try{
+        localStorage.removeItem('token')
+        localStorage.removeItem('user')
+        await checkAuth()
+    }catch(error){
+        console.error(error)
+        alert('ошибка выхода из аккаунта')
+    }
+}
+
+const checkAuth=async()=>{
+    try{
+        const token=localStorage.getItem('token')
+        if(!token)auth.value=false
+        if(token)auth.value=true
+    }catch(error){
+        console.error(error)
+        alert('ошибка выхода из аккаунта')
+    }
+}
+
 const currentServices=computed(()=>{
     const category=categories.find(
         item=>item.title===selectedCategory.value
     )
 
     return category?.services??[]
+})
+
+onMounted(()=>{
+    checkAuth()
 })
 </script>
 
@@ -393,6 +421,17 @@ const currentServices=computed(()=>{
     padding:0;
     background:none;
     color:#73766e;
+    font-size:16px;
+    font-weight:700;
+    transition:background .2s ease,transform .2s ease;
+}
+.header_button-exit{
+    cursor:pointer;
+    border:0;
+    margin:0;
+    padding:0;
+    background:none;
+    color:rgb(165, 43, 43);
     font-size:16px;
     font-weight:700;
     transition:background .2s ease,transform .2s ease;

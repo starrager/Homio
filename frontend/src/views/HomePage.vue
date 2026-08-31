@@ -7,9 +7,10 @@
                 <button type="button" @click="router.push('/services')" class="header_button">Услуги</button>
                 <a href="#how" class="header_button">Как это работает</a>
                 <a href="#faq" class="header_button">Помощь</a>
-                <button type="button" @click="router.push('/profile')" class="header_button">Профиль</button>
+                <button v-if="auth" type="button" @click="router.push('/profile')" class="header_button">Профиль</button>
             </nav>
-            <button type="button" @click="router.push('/login')" class="header_button">Войти</button>
+            <button v-if="!auth" type="button" @click="router.push('/login')" class="header_button">Войти</button>
+            <button v-else-if="auth" type="button" @click="logout()" class="header_button-exit">Выйти</button>
         </div>
     </header>
     <main>
@@ -225,9 +226,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref,onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 
+const auth=ref(false)
 const router=useRouter()
 const faqOpen=ref<number|null>(null)
 const services=[
@@ -282,9 +284,35 @@ const faqs=[
     'Что делать, если нужной услуги нет в списке?',
 ]
 
-function toggleFaq(index: number){
+const logout=async()=>{
+    try{
+        localStorage.removeItem('token')
+        localStorage.removeItem('user')
+        await checkAuth()
+    }catch(error){
+        console.error(error)
+        alert('ошибка выхода из аккаунта')
+    }
+}
+
+const checkAuth=async()=>{
+    try{
+        const token=localStorage.getItem('token')
+        if(!token)auth.value=false
+        if(token)auth.value=true
+    }catch(error){
+        console.error(error)
+        alert('ошибка выхода из аккаунта')
+    }
+}
+
+function toggleFaq(index:number){
     faqOpen.value=faqOpen.value===index?null:index
 }
+
+onMounted(()=>{
+    checkAuth()
+})
 </script>
 
 <style scoped>
@@ -349,6 +377,17 @@ function toggleFaq(index: number){
 }
 .nav a:hover{
     color:#657254;
+}
+.header_button-exit{
+    cursor:pointer;
+    border:0;
+    margin:0;
+    padding:0;
+    background:none;
+    color:rgb(165, 43, 43);
+    font-size:16px;
+    font-weight:700;
+    transition:background .2s ease,transform .2s ease;
 }
 .header_button{
     cursor:pointer;
