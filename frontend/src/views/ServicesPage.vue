@@ -103,7 +103,7 @@
                                     <div class="form-grid">
                                         <label class="field field-full">
                                             <span>Адрес</span>
-                                            <input type="text" placeholder="Улица, дом, квартира">
+                                            <input type="text" v-model="address" placeholder="Улица, дом, квартира">
                                         </label>
                                         <label class="field">
                                             <span>Дата</span>
@@ -137,7 +137,7 @@
                                     <p>Чем подробнее опишете задачу, тем лучше мы сможем подготовиться.</p>
                                     <label class="field">
                                         <span>Описание проблемы</span>
-                                        <textarea rows="5" placeholder="Например: нужно повесить полку на бетонную стену..."></textarea>
+                                        <textarea rows="5" placeholder="Например: нужно повесить полку на бетонную стену..." v-model="comment"></textarea>
                                     </label>
                                 </div>
                             </div>
@@ -148,14 +148,14 @@
                                     <p>Оставьте номер телефона для связи.</p>
                                     <label class="field">
                                         <span>Телефон</span>
-                                        <input type="tel" placeholder="+48 000 000 000">
+                                        <input type="tel" v-model="phone" placeholder="+79 000 000 000">
                                     </label>
                                 </div>
                             </div>
                         </div>
                         <div class="form-submit">
                             <div><strong>{{ selectedService||'Выберите услугу' }}</strong><span>После отправки уточним детали заказа</span></div>
-                            <button type="submit" class="primary-button">Оставить заявку<span>→</span></button>
+                            <button type="submit" class="primary-button" @click="createOrder()">Оставить заявку<span>→</span></button>
                         </div>
                     </form>
                 </div>
@@ -194,11 +194,15 @@
 <script setup lang="ts">
 import { computed, ref,onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import axios from 'axios'
 
 const auth=ref(false)
 const router=useRouter()
 const selectedCategory=ref('Уборка')
 const selectedService=ref('Регулярная уборка')
+const phone=ref('')
+const address=ref('')
+const comment=ref('')
 
 const categories=[
     {
@@ -375,8 +379,42 @@ const currentServices=computed(()=>{
     return category?.services??[]
 })
 
+const getData=async()=>{
+    try{
+        const token=localStorage.getItem('token')
+        const response=await axios.get('http://localhost:5178/auth/profile',{headers:{Authorization:`Bearer ${token}`}})
+
+        phone.value=response.data.phone
+        address.value=response.data.address
+    }catch(error){
+        console.log(error)
+    }
+}
+
+const createOrder=async()=>{
+    try{
+        const token=localStorage.getItem('token')
+        const response=await axios.post('http://localhost:5178/createorder/',
+        {
+            service:selectedService.value,
+            address:address.value,
+            scheduledDate:'2026-08-31',
+            scheduledTime:'11:00',
+            comment:comment.value,
+            estimatedPrice:1500
+        },
+        {headers:{Authorization:`Bearer ${token}`}})
+
+        alert('success')
+    }catch(error){
+        console.error(error)
+        alert('ошибка создания заказа')
+    }
+}
+
 onMounted(()=>{
     checkAuth()
+    getData()
 })
 </script>
 
