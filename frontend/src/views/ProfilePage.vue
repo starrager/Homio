@@ -213,7 +213,6 @@ const passwords=ref({
     confirmPassword:''
 })
 
-
 const getProfile=async()=>{
     try{
         const token=localStorage.getItem('token')
@@ -245,7 +244,7 @@ const changePassword=async()=>{
         }
 
         const token=localStorage.getItem('token')
-        const response=await axios.put('http://localhost:5178/changepassword/',{
+        const response=await axios.put('http://localhost:5178/password/',{
                 newPassword:passwords.value.newPassword,
                 currentPassword:passwords.value.currentPassword,
                 confirmPassword:passwords.value.confirmPassword
@@ -264,7 +263,7 @@ const changePassword=async()=>{
 const setNotifications=async()=>{
     try{
         const token=localStorage.getItem('token')
-        const response=await axios.put('http://localhost:5178/setdata/setnotifications',
+        const response=await axios.put('http://localhost:5178/data/notifications',
         {order:notifications.value.order,reminders:notifications.value.reminders,news:notifications.value.news},
         {headers:{Authorization:`Bearer ${token}`}})
 
@@ -281,7 +280,7 @@ const setNotifications=async()=>{
 const setPhone=async()=>{
     try{
         const token=localStorage.getItem('token')
-        const response=await axios.put('http://localhost:5178/setdata/setphone',{phone:phone.value},{headers:{Authorization:`Bearer ${token}`}})
+        const response=await axios.put('http://localhost:5178/data/phone',{phone:phone.value},{headers:{Authorization:`Bearer ${token}`}})
         phone.value=response.data.phone
     }catch(error){
         console.error(error)
@@ -292,7 +291,7 @@ const setPhone=async()=>{
 const setAddress=async()=>{
     try{
         const token=localStorage.getItem('token')
-        const response=await axios.put('http://localhost:5178/setdata/setaddress',{address:address.value},{headers:{Authorization:`Bearer ${token}`}})
+        const response=await axios.put('http://localhost:5178/data/address',{address:address.value},{headers:{Authorization:`Bearer ${token}`}})
         address.value=response.data.address
     }catch(error){
         console.error(error)

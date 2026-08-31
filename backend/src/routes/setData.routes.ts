@@ -4,8 +4,8 @@ import { middleware } from '../middleware/middleware'
 
 const router=Router()
 
-router.put('/setphone',middleware,setPhone)
-router.put('/setaddress',middleware,setAddress)
-router.put('/setnotifications',middleware,setNotifications)
+router.put('/phone',middleware,setPhone)
+router.put('/address',middleware,setAddress)
+router.put('/notifications',middleware,setNotifications)
 
 export default router

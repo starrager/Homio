@@ -15,9 +15,9 @@ import setDataRoutes from './routes/setData.routes'
 import changePasswordRoutes from './routes/changePassword.router'
 import createOrderRoutes from './routes/createOrder.routes'
 app.use('/auth',authRoutes)
-app.use('/setdata',setDataRoutes)
-app.use('/changepassword',changePasswordRoutes)
-app.use('/createorder',createOrderRoutes)
+app.use('/data',setDataRoutes)
+app.use('/password',changePasswordRoutes)
+app.use('/order',createOrderRoutes)
 
 app.listen(PORT,()=>{
     console.log(`THE SERVER IS RUNNING ON http://localhost:${PORT}`)

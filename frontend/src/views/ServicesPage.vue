@@ -394,7 +394,7 @@ const getData=async()=>{
 const createOrder=async()=>{
     try{
         const token=localStorage.getItem('token')
-        const response=await axios.post('http://localhost:5178/createorder/',
+        const response=await axios.post('http://localhost:5178/order/',
         {
             service:selectedService.value,
             address:address.value,
