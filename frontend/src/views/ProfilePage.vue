@@ -262,6 +262,10 @@
                                     </div>
                                     <button type="button" class="outline-button" @click="changePassword">Изменить</button>
                                 </div>
+                                <button type="button" class="primary-button" @click="saveData">
+                                    Сохранить изменения
+                                    <span>→</span>
+                                </button>
                             </div>
                             <div class="danger-zone">
                                 <div>
@@ -283,87 +287,137 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 
-const router = useRouter()
-const firstName = ref('')
-const lastName = ref('')
-const email = ref('')
-const phone = ref('')
-const address = ref('')
-const orders = ref([])
-const history = ref([])
-const favorites = ref([])
-const notifications = ref({
-    order: false,
-    reminders: false,
-    news: false
+const router=useRouter()
+
+const firstName=ref('')
+const lastName=ref('')
+const email=ref('')
+const phone=ref('')
+const address=ref('')
+
+const orders=ref([])
+const history=ref([])
+const favorites=ref([])
+
+const notifications=ref({
+    order:false,
+    reminders:false,
+    news:false
 })
 
-const getProfile = async () => {
-    try {
-        const token = localStorage.getItem('token')
-        const response = await axios.get('http://localhost:5178/auth/profile', {
-            headers: { Authorization: `Bearer ${token}` }
+const getProfile=async()=>{
+    try{
+        const token=localStorage.getItem('token')
+
+        const response=await axios.get('http://localhost:5178/auth/profile',{
+            headers:{
+                Authorization:`Bearer ${token}`
+            }
         })
-        firstName.value = response.data.firstName
-        lastName.value = response.data.lastName
-        email.value = response.data.email
-        phone.value = response.data.phone
-        address.value = response.data.address
-        notifications.value.order = response.data.order
-        notifications.value.reminders = response.data.reminders
-        notifications.value.news = response.data.news
-    } catch (error) {
+
+        firstName.value=response.data.firstName
+        lastName.value=response.data.lastName
+        email.value=response.data.email
+        phone.value=response.data.phone
+        address.value=response.data.address
+
+        notifications.value.order=response.data.order
+        notifications.value.reminders=response.data.reminders
+        notifications.value.news=response.data.news
+    }catch(error){
         console.error(error)
-        alert('ошибка загрузки данных пользователя')
+        alert('Ошибка загрузки данных пользователя')
     }
 }
 
-const saveData = async () => {
-    try {
-        const token = localStorage.getItem('token')
-        await axios.put('http://localhost:5178/data/phone', { phone: phone.value }, {
-            headers: { Authorization: `Bearer ${token}` }
-        })
-        await axios.put('http://localhost:5178/data/address', { address: address.value }, {
-            headers: { Authorization: `Bearer ${token}` }
-        })
-        await axios.put('http://localhost:5178/data/notifications', {
-            order: notifications.value.order,
-            reminders: notifications.value.reminders,
-            news: notifications.value.news
-        }, {
-            headers: { Authorization: `Bearer ${token}` }
-        })
+const saveData=async()=>{
+    try{
+        const token=localStorage.getItem('token')
+
+        await axios.put(
+            'http://localhost:5178/data/phone',
+            {phone:phone.value},
+            {
+                headers:{
+                    Authorization:`Bearer ${token}`
+                }
+            }
+        )
+
+        await axios.put(
+            'http://localhost:5178/data/address',
+            {address:address.value},
+            {
+                headers:{
+                    Authorization:`Bearer ${token}`
+                }
+            }
+        )
+
+        await axios.put(
+            'http://localhost:5178/data/name',
+            {firstName:firstName.value,lastName:lastName.value},
+            {
+                headers:{
+                    Authorization:`Bearer ${token}`
+                }
+            }
+        )
+
+        await axios.put(
+            'http://localhost:5178/data/email',
+            {email:email.value},
+            {
+                headers:{
+                    Authorization:`Bearer ${token}`
+                }
+            }
+        )
+
+        await axios.put(
+            'http://localhost:5178/data/notifications',
+            {
+                order:notifications.value.order,
+                reminders:notifications.value.reminders,
+                news:notifications.value.news
+            },
+            {
+                headers:{
+                    Authorization:`Bearer ${token}`
+                }
+            }
+        )
         await getProfile()
+
         alert('Данные успешно сохранены')
-    } catch (error) {
+    }catch(error){
         console.error(error)
-        alert('ошибка сохранения данных')
+        alert('Ошибка сохранения данных')
     }
 }
 
-const changePassword = () => {
+const changePassword=()=>{
     router.push('/settings')
 }
 
-const deleteAccount = () => {
-    if (confirm('Вы уверены? Это действие нельзя отменить.')) {
+const deleteAccount=()=>{
+    if(confirm('Вы уверены? Это действие нельзя отменить.')){
         alert('Функция удаления аккаунта будет добавлена позже')
     }
 }
 
-const logout = async () => {
-    try {
+const logout=async()=>{
+    try{
         localStorage.removeItem('token')
         localStorage.removeItem('user')
         router.push('/login')
-    } catch (error) {
+    }catch(error){
         console.error(error)
-        alert('ошибка выхода из аккаунта')
+        alert('Ошибка выхода из аккаунта')
     }
 }
 
-onMounted(() => {
+onMounted(()=>{
     getProfile()
 })
 </script>
