@@ -60,3 +60,40 @@ export const setNotifications=async(req:Request,res:Response)=>{
         return res.status(500).json({error:'set notifications error'})
     }
 }
+
+export const changeName=async(req:Request,res:Response)=>{
+    try{
+        const userId=req.userId
+        const {firstName,lastName}=req.body
+        const user=await prisma.user.update({
+            where:{id:userId},
+            data:{
+                nameFirst:firstName,
+                nameLast:lastName
+            }
+        })
+
+        res.json(user)
+    }catch(error){
+        console.error(error)
+        return res.status(500).json({error:'change name error'})
+    }
+}
+
+export const changeEmail=async(req:Request,res:Response)=>{
+    try{
+        const userId=req.userId
+        const {email}=req.body
+        const user=await prisma.user.update({
+            where:{id:userId},
+            data:{
+                email:email
+            }
+        })
+
+        res.json(user)
+    }catch(error){
+        console.error(error)
+        return res.status(500).json({error:'change email error'})
+    }
+}
