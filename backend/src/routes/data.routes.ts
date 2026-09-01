@@ -1,5 +1,5 @@
 import {Router} from 'express'
-import { setPhone,setAddress,setNotifications } from '../controllers/setData.controller'
+import { setPhone,setAddress,setNotifications } from '../controllers/data.controller'
 import { middleware } from '../middleware/middleware'
 
 const router=Router()

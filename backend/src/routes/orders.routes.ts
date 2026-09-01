@@ -1,9 +1,9 @@
 import { Router } from "express";
 import { middleware } from "../middleware/middleware";
-import { changePassword } from "../controllers/changePassowrd.controler";
+import {getOrders} from '../controllers/order.controller'
 
 const router=Router()
 
-router.put('/',middleware,changePassword)
+router.post('/',middleware,getOrders)
 
 export default router
