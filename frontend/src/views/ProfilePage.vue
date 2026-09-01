@@ -5,7 +5,7 @@
                 <RouterLink to="/" class="logo">homio<span>.</span></RouterLink>
                 <nav class="nav">
                     <RouterLink to="/services">Услуги</RouterLink>
-                    <RouterLink to="/orders">Мои заказы</RouterLink>
+                    <a href="/#how">Как это работает</a>
                     <a href="/#faq">Помощь</a>
                 </nav>
                 <div class="header-user">
@@ -119,34 +119,34 @@
                                 <a href="/services" class="outline-button">Новый заказ</a>
                             </div>
                             <div v-if="orders.length" class="orders-list">
-                                <!-- <article v-for="order in orders" :key="order.id" class="order-card">
+                                <article v-for="order in orders" :key="order.id" class="order-card">
                                     <div class="order-card-main">
                                         <div class="order-icon">✦</div>
                                         <div>
-                                            <span class="order-label">ЗАКАЗ #{{ order.id }}</span>
+                                            <span class="order-label">ЗАКАЗ #{{ order.orderNumber }}</span>
                                             <h3>{{ order.service }}</h3>
-                                            <p>{{ order.description }}</p>
+                                            <p>{{ order.comment }}</p>
                                         </div>
                                     </div>
                                     <div class="order-details">
                                         <div class="order-detail">
                                             <span>Дата</span>
-                                            <strong>{{ order.date }}</strong>
+                                            <strong>{{ order.scheduledDate }}</strong>
                                         </div>
                                         <div class="order-detail">
                                             <span>Время</span>
-                                            <strong>{{ order.time }}</strong>
+                                            <strong>{{ order.scheduledTime }}</strong>
                                         </div>
                                         <div class="order-detail">
                                             <span>Стоимость</span>
-                                            <strong>{{ order.price }} €</strong>
+                                            <strong>{{ order.estimatedPrice }} €</strong>
                                         </div>
                                     </div>
                                     <div class="order-footer">
                                         <span class="status-badge">{{ order.status }}</span>
                                         <a href="#" class="order-link">Подробнее →</a>
                                     </div>
-                                </article> -->
+                                </article>
                             </div>
                             <div v-else class="empty-state">
                                 <div class="empty-icon">□</div>
@@ -286,6 +286,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
+import { resolveTripleslashReference } from 'typescript'
 
 const router=useRouter()
 
@@ -295,7 +296,7 @@ const email=ref('')
 const phone=ref('')
 const address=ref('')
 
-const orders=ref([])
+const orders=ref<any[]>([])
 const history=ref([])
 const favorites=ref([])
 
@@ -327,6 +328,25 @@ const getProfile=async()=>{
     }catch(error){
         console.error(error)
         alert('Ошибка загрузки данных пользователя')
+    }
+}
+
+const getOrders=async()=>{
+    try{
+        const token=localStorage.getItem('token')
+        const response=await axios.get(
+            'http://localhost:5178/orders',
+            {
+                headers:{
+                    Authorization:`Bearer ${token}`
+                }
+            }
+        )
+
+        orders.value=response.data
+    }catch(error){
+        console.error(error)
+        alert('ошибка получения заказов')
     }
 }
 
@@ -387,6 +407,7 @@ const saveData=async()=>{
                 }
             }
         )
+
         await getProfile()
 
         alert('Данные успешно сохранены')
@@ -419,6 +440,7 @@ const logout=async()=>{
 
 onMounted(()=>{
     getProfile()
+    getOrders()
 })
 </script>
 
