@@ -16,6 +16,15 @@ cron.schedule('*/30 * * * * *',async()=>{
                 where:{id:order.id},
                 data:{status:'IN_PROGRESS'}
             })
+
+            await prisma.orderStatusHistory.create({
+                data:{
+                    orderId:order.id,
+                    status:"IN_PROGRESS",
+                    description:'заказ пришел в работу',
+                    changedBy:'system'
+                }
+            })
         }
 
         const twoHoursAge=new Date(now.getTime()-2*60*60*1000)
@@ -30,6 +39,15 @@ cron.schedule('*/30 * * * * *',async()=>{
             await prisma.order.update({
                 where:{id:order.id},
                 data:{status:'COMPLETED'}
+            })
+
+            await prisma.orderStatusHistory.create({
+                data:{
+                    orderId:order.id,
+                    status:"COMPLETED",
+                    description:'заказ выполнен',
+                    changedBy:'system'
+                }
             })
         }
     }catch(error){

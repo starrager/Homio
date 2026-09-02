@@ -23,6 +23,15 @@ export const createOrder=async(req:Request,res:Response)=>{
                 status:'New'
             }
         })
+        
+        await prisma.orderStatusHistory.create({
+            data:{
+                orderId:order.id,
+                status:'NEW',
+                description:comment,
+                changedBy:userId
+            }
+        })
 
         res.json(order)
     }catch(error){
