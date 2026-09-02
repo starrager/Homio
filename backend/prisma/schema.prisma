@@ -28,22 +28,23 @@ model User {
 }
 
 model Order {
-    id             String       @id @default(cuid())
-    orderNumber    Int          @unique
-    userId         String
-    user           User         @relation(fields: [userId], references: [id])
-    service        String
-    address        String
-    scheduledDate  DateTime
-    scheduledTime  String
-    comment        String?
-    status         String       @default("NEW")
-    totalPrice     Float        @default(0)
-    estimatedPrice Float        @default(0)
-    attachments    Attachment[]
-    review         Review?
-    createdAt      DateTime     @default(now())
-    updatedAt      DateTime     @updatedAt
+    id                   String               @id @default(cuid())
+    orderNumber          Int                  @unique
+    userId               String
+    user                 User                 @relation(fields: [userId], references: [id])
+    service              String
+    address              String
+    scheduledDate        DateTime
+    scheduledTime        String
+    comment              String?
+    status               String               @default("NEW")
+    totalPrice           Float                @default(0)
+    estimatedPrice       Float                @default(0)
+    attachments          Attachment[]
+    review               Review?
+    createdAt            DateTime             @default(now())
+    updatedAt            DateTime             @updatedAt
+    orderStatusHistories OrderStatusHistory[]
 
     @@index([userId])
     @@index([status])
@@ -78,4 +79,16 @@ model Review {
 
     @@index([userId])
     @@map("reviews")
+}
+
+model OrderStatusHistory {
+    id          String   @id @default(cuid())
+    orderId     String
+    order       Order    @relation(fields: [orderId], references: [id])
+    status      String
+    description String?
+    changedBy   String
+    createdAt   DateTime @default(now())
+
+    @@map("order_status_history")
 }

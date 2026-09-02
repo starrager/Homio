@@ -10,6 +10,7 @@ app.use(cors({
 
 const PORT=process.env.PORT
 
+import './cron/orders.cron'
 import authRoutes from './routes/auth.routes'
 import dataRoutes from './routes/data.routes'
 import passwordRoutes from './routes/password.router'
