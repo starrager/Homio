@@ -49,10 +49,6 @@
                                 <span class="sidebar-icon">◷</span>
                                 <span>История</span>
                             </label>
-                            <label for="tab-favorites" class="sidebar-link">
-                                <span class="sidebar-icon">♡</span>
-                                <span>Избранное</span>
-                            </label>
                             <label for="tab-settings" class="sidebar-link">
                                 <span class="sidebar-icon">⌁</span>
                                 <span>Настройки</span>
@@ -165,22 +161,35 @@
                                 <p>Все выполненные и завершённые заказы находятся здесь.</p>
                             </div>
                             <div v-if="history.length" class="history-list">
-                                <!-- <article v-for="item in history" :key="item.id" class="history-card">
-                                    <div class="history-date">
-                                        <strong>{{ item.date }}</strong>
-                                        <span>{{ item.time }}</span>
+                                <h3>История заказа #{{ orderId }}</h3>
+                                <article v-for="order in history" :key="order.id" class="order-card">
+                                    <div class="order-card-main">
+                                        <div class="order-icon">✦</div>
+                                        <div>
+                                            <span class="order-label">ЗАКАЗ #{{ order.orderNumber }}</span>
+                                            <h3>{{ order.service }}</h3>
+                                            <p>{{ order.comment }}</p>
+                                        </div>
                                     </div>
-                                    <div class="history-icon">✓</div>
-                                    <div class="history-main">
-                                        <span>ЗАКАЗ #{{ item.id }}</span>
-                                        <h3>{{ item.service }}</h3>
-                                        <p>{{ item.description }}</p>
+                                    <div class="order-details">
+                                        <div class="order-detail">
+                                            <span>Дата</span>
+                                            <strong>{{ order.scheduledDate.slice(0,10) }}</strong>
+                                        </div>
+                                        <div class="order-detail">
+                                            <span>Время</span>
+                                            <strong>{{ order.scheduledTime }}</strong>
+                                        </div>
+                                        <div class="order-detail">
+                                            <span>Стоимость</span>
+                                            <strong>{{ order.estimatedPrice }} €</strong>
+                                        </div>
                                     </div>
-                                    <div class="history-price">
-                                        <span>Стоимость</span>
-                                        <strong>{{ item.price }} €</strong>
+                                    <div class="order-footer">
+                                        <span class="status-badge">{{ order.status }}</span>
+                                        <a href="#" class="order-link">Подробнее →</a>
                                     </div>
-                                </article> -->
+                                </article>
                             </div>
                             <div v-else class="empty-state">
                                 <div class="empty-icon">◷</div>
@@ -188,36 +197,7 @@
                                 <p>После выполнения заказов они появятся в этом разделе.</p>
                             </div>
                         </section>
-                        <section class="account-panel panel-favorites">
-                            <div class="panel-heading">
-                                <span class="card-eyebrow">ИЗБРАННОЕ</span>
-                                <h2>Избранное</h2>
-                                <p>Сохраняйте услуги, к которым хотите вернуться позже.</p>
-                            </div>
-                            <div v-if="favorites.length" class="favorites-grid">
-                                <!-- <article v-for="item in favorites" :key="item.id" class="favorite-card">
-                                    <div class="favorite-icon">{{ item.icon }}</div>
-                                    <div class="favorite-content">
-                                        <span>{{ item.category }}</span>
-                                        <h3>{{ item.title }}</h3>
-                                        <p>{{ item.description }}</p>
-                                    </div>
-                                    <div class="favorite-footer">
-                                        <strong>от {{ item.price }} €</strong>
-                                        <a href="/services">Заказать →</a>
-                                    </div>
-                                </article> -->
-                            </div>
-                            <div v-else class="empty-state">
-                                <div class="empty-icon">♡</div>
-                                <h3>Избранное пока пусто</h3>
-                                <p>Добавленные вами услуги появятся здесь.</p>
-                                <a href="/services" class="primary-button">
-                                    Посмотреть услуги
-                                    <span>→</span>
-                                </a>
-                            </div>
-                        </section>
+                        
                         <section class="account-panel panel-settings">
                             <div class="panel-heading">
                                 <span class="card-eyebrow">НАСТРОЙКИ</span>
@@ -286,7 +266,6 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
-import { resolveTripleslashReference } from 'typescript'
 
 const router=useRouter()
 
@@ -295,9 +274,10 @@ const lastName=ref('')
 const email=ref('')
 const phone=ref('')
 const address=ref('')
+const orderId=ref('')
 
 const orders=ref<any[]>([])
-const history=ref([])
+const history=ref<any[]>([])
 const favorites=ref([])
 
 const notifications=ref({
@@ -305,6 +285,17 @@ const notifications=ref({
     reminders:false,
     news:false
 })
+
+const formatDate=(date:string|Date)=>{
+    const d=new Date(date)
+    return d.toLocaleDateString('ru-RU',{
+        day:'2-digit',
+        month:'2-digit',
+        year:'numeric',
+        hour:'2-digit',
+        minute:'2-digit'
+    })
+}
 
 const getProfile=async()=>{
     try{
@@ -417,6 +408,20 @@ const saveData=async()=>{
     }
 }
 
+const getHistory=async()=>{
+    try{
+        const token=localStorage.getItem('token')
+        const response=await axios.get('http://localhost:5178/orders/history',
+            {headers:{Authorization:`Bearer ${token}`}}
+        )
+
+        history.value=response.data
+    }catch(error){
+        console.error(error)
+        alert('ошибка загрузки истории заказов')
+    }
+}
+
 const changePassword=()=>{
     router.push('/settings')
 }
@@ -425,6 +430,11 @@ const deleteAccount=()=>{
     if(confirm('Вы уверены? Это действие нельзя отменить.')){
         alert('Функция удаления аккаунта будет добавлена позже')
     }
+}
+
+const showHistory=(id:string)=>{
+    orderId.value=id
+    getHistory()
 }
 
 const logout=async()=>{
@@ -441,6 +451,7 @@ const logout=async()=>{
 onMounted(()=>{
     getProfile()
     getOrders()
+    getHistory()
 })
 </script>
 
