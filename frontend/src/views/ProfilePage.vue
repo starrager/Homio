@@ -131,7 +131,7 @@
                                     <div class="order-details">
                                         <div class="order-detail">
                                             <span>Дата</span>
-                                            <strong>{{ order.scheduledDate }}</strong>
+                                            <strong>{{ order.scheduledDate.slice(0,10) }}</strong>
                                         </div>
                                         <div class="order-detail">
                                             <span>Время</span>

@@ -107,12 +107,12 @@
                                         </label>
                                         <label class="field">
                                             <span>Дата</span>
-                                            <input type="date">
+                                            <input type="date" v-model="date">
                                         </label>
                                         <label class="field">
                                             <span>Время</span>
-                                            <select>
-                                                <option value="">Выберите время</option>
+                                            <select v-model="time">
+                                                <option>Выберите время</option>
                                                 <option>09:00</option>
                                                 <option>10:00</option>
                                                 <option>11:00</option>
@@ -203,6 +203,18 @@ const selectedService=ref('Регулярная уборка')
 const phone=ref('')
 const address=ref('')
 const comment=ref('')
+const estimatedPrice=ref(0)
+const date=ref('')
+const time=ref('')
+
+const priceMap:Record<string,number>={
+    'Уборка':1000,
+    'Починить':1200,
+    'Электрика':1300,
+    'Сантехника':1100,
+    'Сборка':900,
+    'Другое':800
+}
 
 const categories=[
     {
@@ -394,14 +406,28 @@ const getData=async()=>{
 const createOrder=async()=>{
     try{
         const token=localStorage.getItem('token')
+
+        estimatedPrice.value=priceMap[selectedCategory.value]||800
+
+
+        if(!selectedCategory.value){
+            alert('Выберите услугу')
+            return
+        }
+
+        if(!selectedService.value){
+            alert('Выберите услугу')
+            return
+        }
+
         const response=await axios.post('http://localhost:5178/order/',
         {
             service:selectedService.value,
             address:address.value,
-            scheduledDate:'2026-08-31',
-            scheduledTime:'11:00',
+            scheduledDate:date.value,
+            scheduledTime:time.value,
             comment:comment.value,
-            estimatedPrice:1500
+            estimatedPrice:estimatedPrice.value
         },
         {headers:{Authorization:`Bearer ${token}`}})
 
@@ -413,6 +439,9 @@ const createOrder=async()=>{
 }
 
 onMounted(()=>{
+    const now=new Date()
+    date.value=now.toISOString().split('T')[0]||''
+    time.value=now.toTimeString().slice(0,5)
     checkAuth()
     getData()
 })
