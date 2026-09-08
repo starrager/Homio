@@ -26,7 +26,8 @@
       "node-cron": "^4.6.0",
       "prisma": "^5.22.0",
       "winston": "^3.19.0",
-      "zod": "^4.4.3"
+      "zod": "^4.4.3",
+      "@types/node": "^20.11.0"
     },
     "devDependencies": {
       "@types/bcryptjs": "^2.4.6",
