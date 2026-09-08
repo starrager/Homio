@@ -265,7 +265,8 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import axios from 'axios'
+import { api } from '@/api/axios'
+
 
 const router=useRouter()
 
@@ -301,7 +302,7 @@ const getProfile=async()=>{
     try{
         const token=localStorage.getItem('token')
 
-        const response=await axios.get('http://localhost:5178/auth/profile',{
+        const response=await api.get('/auth/profile',{
             headers:{
                 Authorization:`Bearer ${token}`
             }
@@ -325,8 +326,8 @@ const getProfile=async()=>{
 const getOrders=async()=>{
     try{
         const token=localStorage.getItem('token')
-        const response=await axios.get(
-            'http://localhost:5178/orders',
+        const response=await api.get(
+            '/orders',
             {
                 headers:{
                     Authorization:`Bearer ${token}`
@@ -345,8 +346,8 @@ const saveData=async()=>{
     try{
         const token=localStorage.getItem('token')
 
-        await axios.put(
-            'http://localhost:5178/data/phone',
+        await api.put(
+            '/data/phone',
             {phone:phone.value},
             {
                 headers:{
@@ -355,8 +356,8 @@ const saveData=async()=>{
             }
         )
 
-        await axios.put(
-            'http://localhost:5178/data/address',
+        await api.put(
+            '/data/address',
             {address:address.value},
             {
                 headers:{
@@ -365,8 +366,8 @@ const saveData=async()=>{
             }
         )
 
-        await axios.put(
-            'http://localhost:5178/data/name',
+        await api.put(
+            '/data/name',
             {firstName:firstName.value,lastName:lastName.value},
             {
                 headers:{
@@ -375,8 +376,8 @@ const saveData=async()=>{
             }
         )
 
-        await axios.put(
-            'http://localhost:5178/data/email',
+        await api.put(
+            '/data/email',
             {email:email.value},
             {
                 headers:{
@@ -385,8 +386,8 @@ const saveData=async()=>{
             }
         )
 
-        await axios.put(
-            'http://localhost:5178/data/notifications',
+        await api.put(
+            '/data/notifications',
             {
                 order:notifications.value.order,
                 reminders:notifications.value.reminders,
@@ -411,7 +412,7 @@ const saveData=async()=>{
 const getHistory=async()=>{
     try{
         const token=localStorage.getItem('token')
-        const response=await axios.get('http://localhost:5178/orders/history',
+        const response=await api.get('/orders/history',
             {headers:{Authorization:`Bearer ${token}`}}
         )
 

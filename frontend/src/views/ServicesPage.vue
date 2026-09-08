@@ -194,7 +194,7 @@
 <script setup lang="ts">
 import { computed, ref,onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import axios from 'axios'
+import { api } from '@/api/axios'
 
 const auth=ref(false)
 const router=useRouter()
@@ -394,7 +394,7 @@ const currentServices=computed(()=>{
 const getData=async()=>{
     try{
         const token=localStorage.getItem('token')
-        const response=await axios.get('http://localhost:5178/auth/profile',{headers:{Authorization:`Bearer ${token}`}})
+        const response=await api.get('/auth/profile',{headers:{Authorization:`Bearer ${token}`}})
 
         phone.value=response.data.phone
         address.value=response.data.address
@@ -420,7 +420,7 @@ const createOrder=async()=>{
             return
         }
 
-        const response=await axios.post('http://localhost:5178/order/',
+        const response=await api.post('/order/',
         {
             service:selectedService.value,
             address:address.value,

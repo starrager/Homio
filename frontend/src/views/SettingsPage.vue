@@ -147,7 +147,7 @@
 <script setup lang="ts">
 import { ref,onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import axios from 'axios'
+import { api } from '@/api/axios'
 
 const router=useRouter()
 const firstName=ref('')
@@ -162,7 +162,7 @@ const getProfile=async()=>{
     try{
         const token=localStorage.getItem('token')
 
-        const response=await axios.get('http://localhost:5178/auth/profile',{
+        const response=await api.get('/auth/profile',{
             headers:{
                 Authorization:`Bearer ${token}`
             }
@@ -189,7 +189,7 @@ const changePassword=async()=>{
 
         const token=localStorage.getItem('token')
 
-        await axios.put('http://localhost:5178/password/',{
+        await api.put('/password/',{
             currentPassword:passwords.value.currentPassword,
             newPassword:passwords.value.newPassword,
             confirmPassword:passwords.value.confirmPassword
