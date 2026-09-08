@@ -21,7 +21,7 @@
                     <h1>Домашние дела <em>решаются проще.</em></h1>
                     <p class="hero-description">Уборка, ремонт, сантехника и другие бытовые задачи. Расскажите, что нужно сделать — мы поможем решить проблему.</p>
                     <div class="hero-actions">
-                        <a href="" class="primary-button">Заказать услугу <span>→</span></a>
+                        <a @click="router.push('/services')" class="primary-button">Заказать услугу <span>→</span></a>
                         <a @click="router.push('/services')" class="secondary-button">Посмотреть услуги</a>
                     </div>
                     <div class="hero-info">
@@ -79,7 +79,7 @@
                         <span class="eyebrow">УСЛУГИ</span>
                         <h2>Помощь для вашего дома</h2>
                     </div>
-                    <p>Не нашли нужную услугу? Просто опишите задачу при оформлении заявки.</p>
+                    <a @click="router.push('/services')">Не нашли нужную услугу? Просто опишите задачу при оформлении заявки.</a>
                 </div>
                 <div class="services-grid">
                     <article v-for="service in services":key="service.title" class="service-card">
@@ -96,7 +96,7 @@
                 </div>
                 <div class="services-note">
                     <span>Нужна другая помощь?</span>
-                    <a href="">Опишите задачу</a>
+                    <a @click="router.push('/services')">Опишите задачу</a>
                 </div>
             </div>
         </section>
@@ -126,7 +126,7 @@
                     <span class="eyebrow">ПОЧЕМУ HOMIO</span>
                     <h2>Не нужно искать, кому позвонить.</h2>
                     <p>Одна заявка вместо десятка поисков. Расскажите о задаче, укажите адрес и удобное время — остальное мы организуем.</p>
-                    <a href="" class="text-link">Оставить заявку →</a>
+                    <a @click="router.push('/services')" class="text-link">Оставить заявку →</a>
                 </div>
                 <div class="why-list">
                     <div class="why-item">
@@ -182,13 +182,13 @@
                     <p>Если не нашли ответ — просто оставьте заявку, и мы всё объясним.</p>
                 </div>
                 <div class="faq-list">
-                    <article v-for="(question,index) in faqs":key="question" class="faq-item">
+                    <article v-for="(item,index) in faqs":key="index" class="faq-item">
                         <button type="button" @click="toggleFaq(index)">
-                            <span>{{ question }}</span>
+                            <span>{{ item.question }}</span>
                             <b>{{ faqOpen===index?'−':'+' }}</b>
                         </button>
                         <div v-if="faqOpen===index" class="faq-answer">
-                            Стоимость и время зависят от конкретной задачи. После оформления заявки мы уточним детали и сообщим всю необходимую информацию.
+                            {{ item.answer }}
                         </div>
                     </article>
                 </div>
@@ -204,16 +204,20 @@
             <div class="footer-links">
                 <div>
                     <strong>Услуги</strong>
-                    <a href="">Уборка</a>
-                    <a href="">Ремонт</a>
-                    <a href="">Сантехника</a>
-                    <a href="">Электрика</a>
+                    <a @click="router.push('/services')">Уборка</a>
+                    <a @click="router.push('/services')">Ремонт</a>
+                    <a @click="router.push('/services')">Сантехника</a>
+                    <a @click="router.push('/services')">Электрика</a>
                 </div>
                 <div>
                     <strong>Информация</strong>
-                    <a href="">Как это работает</a>
-                    <a href="">Помощь</a>
-                    <a href="">Контакты</a>
+                    <a href="#how">Как это работает</a>
+                    <a href="#faq">Помощь</a>
+                </div>
+                <div>
+                    <strong>Контакты</strong>
+                    <a href="https://github.com/starrager">Github</a>
+                    <a href="https://t.me/starragerofshit">Telegram</a>
                 </div>
             </div>
         </div>
@@ -278,10 +282,22 @@ const steps=[
 ]
 
 const faqs=[
-    'Сколько стоит услуга?',
-    'Как быстро можно вызвать специалиста?',
-    'Можно ли выбрать определённое время?',
-    'Что делать, если нужной услуги нет в списке?',
+{
+    question:'Сколько стоит услуга?',
+    answer:'Стоимость зависит от сложности задачи и времени выполнения. Ориентировочную цену вы увидите при оформлении заявки, а точную стоимость согласуем с вами до начала работы.'
+},
+{
+    question:'Как быстро можно вызвать специалиста?',
+    answer:'Обычно специалист приезжает в течение 1-3 часов после подтверждения заявки. Если вам нужно срочно — укажите это при оформлении, и мы постараемся найти мастера как можно быстрее.'
+},
+{
+    question:'Можно ли выбрать определённое время?',
+    answer:'Да! При оформлении заявки вы указываете удобные дату и время. Мы согласуем визит с мастером и подтвердим его.'
+},
+{
+    question:'Что делать, если нужной услуги нет в списке?',
+    answer:'Просто опишите свою задачу в заявке — мы найдём специалиста, который сможет помочь. Если услуга сложная, мы свяжемся с вами для уточнения деталей.'
+},
 ]
 
 const logout=async()=>{
