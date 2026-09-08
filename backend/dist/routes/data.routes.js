@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const data_controller_1 = require("../controllers/data.controller");
+const middleware_1 = require("../middleware/middleware");
+const router = (0, express_1.Router)();
+router.put('/phone', middleware_1.middleware, data_controller_1.setPhone);
+router.put('/address', middleware_1.middleware, data_controller_1.setAddress);
+router.put('/notifications', middleware_1.middleware, data_controller_1.setNotifications);
+router.put('/name', middleware_1.middleware, data_controller_1.changeName);
+router.put('/email', middleware_1.middleware, data_controller_1.changeEmail);
+exports.default = router;
