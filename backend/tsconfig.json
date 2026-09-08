@@ -7,17 +7,10 @@
       "rootDir": "./src",
       "strict": false,
       "esModuleInterop": true,
-      "types": ["node"],
       "skipLibCheck": true,
       "noImplicitAny": false,
-      "strictNullChecks": false,
-      "noUnusedLocals": false,
-      "noUnusedParameters": false,
       "resolveJsonModule": true
     },
     "include": ["src/**/*"],
-    "exclude": ["node_modules", "dist"],
-    "typeAcquisition": {
-      "enable": false
-    }
+    "exclude": ["node_modules", "dist"]
   }
